@@ -1,0 +1,383 @@
+@media only screen and (max-device-width: 480px) {
+    .elecmobile {
+      display: block;
+    }
+    .elecdesk {
+      display: none;
+    }
+  
+    .topbanner {
+      max-width: 100%;
+      height: auto !important;
+      display: grid;
+      grid-template-rows: auto auto;
+      grid-gap: 10px;
+    }
+  
+    .topbannerimg {
+      max-width: 100%;
+      height: auto;
+    }
+  
+    .titleban {
+      width: 100%;
+      height: auto;
+      align-self: end !important;
+      justify-self: start;
+      font-family: "Roboto", sans-serif;
+      font-size: 2rem;
+      margin: auto;
+      text-align: start;
+      color: #752a87;
+      padding: 1rem;
+      font-weight: 600;
+    }
+    .titleban p {
+      font-size: 1.5rem;
+    }
+    .cont {
+      width: 90%;
+      margin: 0px auto 0 auto;
+      color: #fff;
+      min-width: 320px;
+    }
+  
+    .panel-accordion {
+      padding: 0px 0px !important;
+    }
+  
+    .eleccard {
+      position: relative;
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+  
+      /* padding:10px 10px !important;*/
+      border-radius: 10px;
+      /* box-shadow: 0 10px 25px 5px rgba(0, 0, 0, 0.2);*/
+      background: #e7dfdd;
+      overflow: hidden;
+    }
+  
+    .elecbar {
+      border-radius: 10px;
+      justify-content: start;
+      align-content: center;
+      height: auto;
+      padding: 9px !important;
+      background: linear-gradient(
+        90deg,
+        rgba(94, 0, 130, 1) 0%,
+        rgba(215, 140, 244, 1) 100%
+      ) !important;
+      box-shadow: 0 10px 25px 5px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      margin: 5px 0px !important;
+    }
+    .elecname {
+      font-size: 4vh;
+    }
+  
+    .candidate > * {
+      pointer-events: none !important;
+    }
+  
+    .candidate {
+      margin: 0.5vh auto;
+      display: grid;
+      padding: 2vw;
+      grid-template-columns: auto 6fr 1fr 1fr;
+      grid-template-rows: auto;
+      width: 95%;
+      justify-content: start;
+      align-items: center;
+      grid-gap: 10px;
+      height: auto; /*change later*/
+      min-height: 60px;
+      border: 4px solid #8930b1;
+      border-radius: 25px;
+    }
+  
+    .candidate .candimg {
+      justify-content: start !important;
+      align-content: center !important;
+      width: 8vh !important;
+      height: 8vh !important;
+      margin-left: 10px;
+      border-radius: 50%;
+      /*	 box-shadow: 0 0 0 5px #151515, inset 0 0 0 5px #000, inset 0 0 0 5px #000, inset 0 0 0 5px #000, inset 0 0 0 5px #000;
+  */
+      background: white;
+      overflow: hidden;
+      /*	 animation: mvTop 1.5s;
+  */
+    }
+    .candidate .candimg img {
+      max-width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+  
+    .candname {
+      font-size: 3vw;
+      color: crimson;
+    }
+    .cdinf{
+      font-size: 3vw;
+      color: crimson;
+    }
+    .lock {
+      justify-self: center;
+  
+      align-self: center;
+      width: 24px;
+      height: 21px;
+      border: 3px solid #5fadbf;
+      border-radius: 5px;
+      position: relative;
+      cursor: pointer;
+      -webkit-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out;
+    }
+    .lock:after {
+      content: "";
+      display: block;
+      background: #5fadbf;
+      width: 3px;
+      height: 7px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -3.5px 0 0 -2px;
+      -webkit-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out;
+    }
+    .lock:before {
+      content: "";
+      display: block;
+      width: 15px;
+      height: 15px;
+      bottom: 100%;
+      position: absolute;
+      left: 50%;
+      margin-left: -8px;
+      border: 3px solid #5fadbf;
+      border-top-right-radius: 50%;
+      border-top-left-radius: 50%;
+      border-bottom: 0;
+      -webkit-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out;
+    }
+
+    .unlocked:before {
+      bottom: 130%;
+      left: 10%;
+      transform: rotate(-45deg);
+    }
+    .unlocked,
+    .unlocked:before {
+      border-color: #ff5153;
+    }
+    .unlocked:after {
+      background: #ff5153;
+    }
+    /* Unlocked Hover */
+  }
+  
+  @media only screen and (min-device-width: 481px) {
+    .elecmobile {
+      display: none;
+    }
+    .elecdesk {
+      display: block;
+    }
+  
+    .topbanner {
+      max-width: 100%;
+      height: auto !important;
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      grid-gap: 10px;
+    }
+  
+    .topbannerimg {
+      max-width: 100%;
+      height: auto;
+    }
+  
+    .titleban {
+      width: 100%;
+      height: auto;
+      align-self: end !important;
+      justify-self: start;
+      font-family: "Quicksand", sans-serif;
+      font-size: 5rem;
+      margin: auto auto 50px auto;
+      text-align: start;
+      color: #752a87;
+      padding-left: 4rem;
+      font-weight: 600;
+    }
+    .titleban p {
+      font-size: 2.5rem;
+    }
+    .cont {
+      width: 80%;
+      margin: 0px auto 0 auto;
+      color: #fff;
+      min-width: 320px;
+    }
+  
+    .panel-accordion {
+      padding: 0px 0px !important;
+    }
+    .forthemeelec {
+      width: 100%;
+      background: url(../Teampage/themebg.png);
+      background-repeat: no-repeat;
+      background-position: left bottom;
+    }
+    .eleccard {
+      position: relative;
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+  
+      /* padding:10px 10px !important;*/
+      border-radius: 10px;
+      /* box-shadow: 0 10px 25px 5px rgba(0, 0, 0, 0.2);*/
+      background: #e7dfdd;
+      overflow: hidden;
+    }
+  
+    .elecbar {
+      border-radius: 10px;
+      justify-content: start;
+      align-content: center;
+      height: auto;
+      padding: 9px !important;
+      background: linear-gradient(
+        90deg,
+        rgba(94, 0, 130, 1) 0%,
+        rgba(215, 140, 244, 1) 100%
+      ) !important;
+      box-shadow: 0 10px 25px 5px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      margin: 5px 0px !important;
+    }
+    .elecname {
+      font-size: 4vh;
+    }
+  
+/*    .candidate > * {
+      pointer-events: none !important;
+    }*/
+  
+    .candidate {
+      margin: 0.5vh auto;
+      display: grid;
+      padding: 1vw;
+      grid-template-columns: auto 7fr auto auto;
+      width: 95%;
+      justify-content: start;
+      align-items: center;
+      grid-gap: 10px;
+      height: auto; /*change later*/
+      min-height: 60px;
+      border: 4px solid #8930b1;
+      border-radius: 25px;
+    }
+  
+    .candidate .candimg {
+      justify-content: start !important;
+      align-content: center !important;
+      width: 8vh !important;
+      height: 8vh !important;
+      margin-left: 10px;
+      border-radius: 50%;
+      /*	 box-shadow: 0 0 0 5px #151515, inset 0 0 0 5px #000, inset 0 0 0 5px #000, inset 0 0 0 5px #000, inset 0 0 0 5px #000;
+  */
+      background: white;
+      overflow: hidden;
+      /*	 animation: mvTop 1.5s;
+  */
+    }
+    .candidate .candimg img {
+      max-width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+      .cdinf i{
+      font-size: 2vw;
+      color: crimson;
+      cursor: pointer;
+      
+    }
+    .candname {
+      font-size: 1.5vw;
+      color: crimson;
+      cursor: default;
+    }
+  
+    .lock {
+      justify-self: center;
+  
+      align-self: center;
+      width: 24px;
+      height: 21px;
+      border: 3px solid #5fadbf;
+      border-radius: 5px;
+      position: relative;
+      cursor: pointer;
+      -webkit-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out;
+    }
+    .lock:after {
+      content: "";
+      display: block;
+      background: #5fadbf;
+      width: 3px;
+      height: 7px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -3.5px 0 0 -2px;
+      -webkit-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out;
+    }
+    .lock:before {
+      content: "";
+      display: block;
+      width: 15px;
+      height: 15px;
+      bottom: 100%;
+      position: absolute;
+      left: 50%;
+      margin-left: -8px;
+      border: 3px solid #5fadbf;
+      border-top-right-radius: 50%;
+      border-top-left-radius: 50%;
+      border-bottom: 0;
+      -webkit-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out;
+    }
+    /* Locked Hover */
+
+    .unlocked:before {
+      bottom: 130%;
+      left: 10%;
+      transform: rotate(-45deg);
+    }
+    .unlocked,
+    .unlocked:before {
+      border-color: #ff5153;
+    }
+    .unlocked:after {
+      background: #ff5153;
+    }
+    /* Unlocked Hover */
+  }
+  
