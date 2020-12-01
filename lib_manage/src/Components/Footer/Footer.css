@@ -1,0 +1,177 @@
+  @media only screen and (max-device-width: 480px) {
+
+
+  .mob-footer {
+    display: block;
+  }
+  .desk-footer {
+    display: none;
+  }
+.bigcont *{
+	font-size:1rem;
+	}
+
+	.bigcont {
+		background-color:#c3aed6;
+		width: 100%;
+		color:#fff;
+		height:auto;
+		margin-top:100px;
+	}
+
+.footer-container{
+	width: 80%;
+	height: auto;
+	margin: auto;
+	display: grid;
+	grid-gap: 10px;
+	grid-template-rows:auto auto auto;
+}
+.footer-main{
+	display:grid;
+	grid-template-columns:1fr;
+	grid-template-rows:1fr;
+
+}
+.footer-logo-name{
+	
+}
+.footer-logo1{
+	height: 100%; 
+	width: 100%; 
+
+}
+.footer-logo2{
+	align-self:center;
+	justify-self: center;
+		padding:10px;
+	width: 90%; 
+	object-fit: contain;
+
+}
+.footer-contact-heading{
+	font-size:1.4rem !important;
+}
+
+.footer-main-content{
+	padding: 5px 5px;
+}
+.listtoreach{
+padding:10px 5px 20px 5px;
+display: grid;
+grid-template-rows:auto auto auto auto;
+
+}
+.footer-contact-list-item{
+	align-self: center;
+}
+.footer-logo-name {
+	text-align: center;
+	align-self: center;
+}
+.footer-logo-name p{
+	line-height: 1 !important;
+	font-size:2rem !important;
+}
+.footer-credits{
+	background-color: #230e48;
+width:100%;
+padding:10px;
+font-size:1rem;
+font-weight:700 !important;
+text-align: center;	
+	margin:auto;
+}
+
+}
+
+  @media only screen and (min-device-width: 481px) {
+
+
+  .mob-footer {
+    display: none;
+  }
+  .desk-footer {
+    display: block;
+  }
+.bigcont *{
+	font-size:1.2rem;
+	}
+
+	.bigcont {
+		background-color:#c3aed6;;
+		width: 100%;
+		color:#752a87;
+		position:sticky;
+		bottom:0;
+		height:auto;
+/*		margin-top:100px;
+*/	}
+
+.footer-container{
+	width: 90%;
+	height: auto;
+	margin: auto;
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns:1.5fr 2fr 1.5fr;
+}
+.footer-main{
+	display:grid;
+	grid-template-columns:1fr;
+	grid-template-rows:1fr;
+
+}
+.footer-logo-name{
+	
+}
+.footer-logo1{
+	height: 100%; 
+	width: 100%; 
+
+}
+.footer-logo2{
+	align-self:center;
+	justify-self: center;
+		padding:20px;
+
+	height: 80%; 
+	width: 80%; 
+	object-fit: contain;
+
+}
+.footer-contact-heading{
+	font-size:1.8rem !important;
+}
+
+.footer-main-content{
+	padding: 20px 5px;
+}
+.listtoreach{
+padding:20px 5px;
+display: grid;
+grid-template-rows:auto auto auto auto;
+
+}
+.footer-contact-list-item{
+	align-self: center;
+}
+.footer-logo-name {
+	text-align: center;
+	align-self: center;
+}
+.footer-logo-name p{
+	line-height: 1 !important;
+	font-size:2rem !important;
+}
+.footer-credits{
+	background-color: #230e48;
+width:100%;
+padding:10px;
+font-size:1rem;
+font-weight:700 !important;
+text-align: center;	
+	margin:auto;
+}
+
+}

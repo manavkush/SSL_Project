@@ -1,0 +1,212 @@
+.pogcont{
+    transition: opacity 0.6s;
+
+}
+
+@media only screen and (max-device-width: 480px) {
+  .show-mobile {
+    display: block;
+  }
+  .hide-mobile {
+    display: none;
+  }
+  .imgshow {
+    display: grid;
+    grid-template-rows: 2fr 0.5fr auto;
+    height: 185vh;
+    margin-top:-100vh;
+    padding-top:100vh;
+    grid-gap: 10px;
+    background-color: #e9d8ff;
+    width: 100vw;
+    border-bottom-left-radius: 10vh;
+    border-bottom-right-radius: 10vh;
+    overflow: hidden;
+  }
+  .logoimg {
+    margin: auto;
+    max-height: 100%;
+    max-width: 70% !important;
+    align-self: end !important;
+  }
+  .infotxt {
+    align-self: start !important;
+    font-family: "Quicksand", sans-serif;
+    font-size: 2vw;
+    margin: auto;
+    text-align: center;
+    color: #752a87;
+  }
+  .infotxt a {
+    font-size: 3.5vw;
+  }
+  .bottomimg {
+    max-width: 100%;
+  }
+
+  .homeinfo {
+    display: grid;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 2fr 2fr 2fr;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 2px;
+  }
+ 
+  .info {
+    font-size: 1.5rem;
+    justify-self: center;
+    align-self: center;
+    cursor: default;
+    font-family: "Quicksand", sans-serif;
+  }
+
+  .tallinfo {
+    font-size: 2.5rem;
+    color: crimson;
+    font-family: "Quicksand", sans-serif;
+  }
+  .tallinfo:hover {
+    font-size: 2.5rem;
+    color: crimson !important;
+    text-decoration: none !important;
+    font-family: "Quicksand", sans-serif;
+  }
+
+}
+
+@media only screen and (min-device-width: 481px) {
+  .show-mobile {
+    display: none;
+  }
+  .hide-mobile {
+    display: block;
+    max-height: 100%;
+  }
+  .imgshow {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    height: 110vh;
+    grid-gap: -20px;
+    background-color: #e9d8ff;
+    width: 100%;
+
+    overflow: visible;
+    background-size: contain;
+    margin-top: -20vh;
+  }
+  .formargin {
+    margin-left: 3vw;
+    align-self: end;
+    margin-top: 5vh;
+  }
+  .formg{
+    margin-bottom: 75px;
+  }
+  .logoimg {
+    max-width: 60% !important;
+    align-self: center !important;
+    margin-top: 5vh;
+  }
+
+  .infotxt {
+    padding-left:1vw;
+        padding-right:1vw;
+
+    padding-bottom: 2vh;
+    text-align:start;
+    margin-left:-2vw !important;
+    justify-self:start;
+    align-self: start !important;
+    font-family: "Quicksand", sans-serif;
+    font-size: 2rem;
+    margin: auto auto auto auto;
+    text-align: start;
+    line-height: 1.2;
+    color: #752a87;
+  }
+  .infotxt a {
+    font-size: 4.5rem;
+    white-space: nowrap;
+  }
+  .bottomimg {
+    max-width: 90%;
+    margin-top: -25vh;
+  }
+  .homeinfo {
+    padding-top: 8vh;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    display: grid;
+    width: 100%;
+    height: auto;
+    grid-template-columns: 1fr 1fr 1.2fr 1.2fr;
+    grid-template-rows: 2fr 5fr;
+    background-image: linear-gradient(to bottom, rgba(233, 222, 255, 1), rgba(255, 255, 255, 0.5)),  url(./hands.png);
+    background-repeat:repeat-x;
+    background-position: center bottom; 
+    justify-items: center;
+    align-items: center;
+    grid-gap: 40px;
+  }
+  .info {
+    display: grid;
+    grid-template-rows: 1fr;
+    justify-self: center;
+    align-self: start;
+    text-align: center;
+    width: 100%;
+    height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fce963;
+    line-height: 1;
+    font-family: "Quicksand", sans-serif;
+    border-right: 5px solid crimson;
+    border-bottom: 5px solid crimson;
+    border-radius: 20px 0px 20px 0px;
+  }
+
+  .tallinfo {
+    /*font-size: calc(4.5rem - 0.6vw);*/
+    font-size: 3vw;
+    color: #752a87;
+    justify-self: center;
+    align-self: center;
+    font-family: "Quicksand", sans-serif;
+  }
+  .tallinfo:hover {
+    color: crimson !important;
+    text-decoration: none;
+  }
+  .smallinfo {
+    text-align: center;
+    color: black;
+    font-size: 2rem;
+    margin: auto;
+    justify-self: center;
+    align-self: center;
+  }
+  .smallinfo:hover {
+    color: black !important;
+    text-decoration: none;
+  }
+  .emptydiv {
+    padding-bottom: 100px;
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
+  .markcal {
+    margin: 30px auto 30px auto;
+    font-size: 4rem;
+    color: crimson;
+    font-family: "Quicksand", sans-serif;
+    text-align: center;
+  }
+}
