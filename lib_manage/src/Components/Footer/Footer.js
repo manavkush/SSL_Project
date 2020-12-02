@@ -2,7 +2,6 @@ import React from "react";
 import "./Footer.css";
 import Reveal from "react-reveal/Reveal";
 import logo1 from "../Homedetails/logog.png";
-import logo2 from "../Homedetails/oss.png";
 import Fade from "react-reveal/Fade";
 const Footer = ({ style }) => {
   return (
@@ -30,8 +29,7 @@ const Footer = ({ style }) => {
               </div>
               <div className="footer-contact-list-item">
                 <div>
-                  <i className="fa fa-phone" aria-hidden="true"></i> +91 12345
-                  67890
+                  <i className="fa fa-phone" aria-hidden="true"></i> +91 8806295075
                 </div>
               </div>
               <div className="footer-contact-list-item">
@@ -45,7 +43,7 @@ const Footer = ({ style }) => {
             </div>
           </div>
           <div className="footer-credits">
-            Copyright © 2020 - OSS, Indian Institute of Technology, Dharwad. All
+            Copyright © 2020, Indian Institute of Technology, Dharwad. All
             Rights Reserved.
           </div>
         </div>
@@ -55,7 +53,7 @@ const Footer = ({ style }) => {
         <div className="bigcont">
           <div className="footer-container">
             <div className="footer-main">
-              <img src={logo2} className="footer-logo2" />
+              <img src={logo1} className="footer-logo2" />
             </div>
 
             <div className="footer-main-content">

@@ -9,12 +9,14 @@ class Teampage extends React.Component {
   constructor(props) {
     super(props);
     this.props.showLoader();
-    this.state={
-            showImages: false,
+    this.state = {
+      showImages: false,
 
     }
   }
-
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <OnImagesLoaded

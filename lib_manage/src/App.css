@@ -1,4 +1,4 @@
-@media screen and (max-width: 480px) {
+/* @media screen and (max-width: 480px) {
   html * {
     font-family: "Quicksand", sans-serif;
     font-weight: 600;
@@ -52,8 +52,12 @@
     font-family: "Quicksand", sans-serif;
     font-weight: 600;
   }
-}
+} */
 
+html * {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+}
 .App {
   text-align: center;
 }
