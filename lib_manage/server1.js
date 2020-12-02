@@ -127,7 +127,7 @@ var bname = "physi";
 bname = (_.toLower(bname));
 console.log(bname);
 
-// Search route
+//================================================== Searching a book ==================================
 app.post("/search", function (req, res) {
     const bname = _.lowerCase(req.body.book_name);
     var ret = [];
@@ -151,7 +151,7 @@ app.post("/search", function (req, res) {
 });
 
 
-// Add book route
+//================================================= Add a book to library ==============================
 app.post("/addBook", function (req, res) {
     const bISBN = _.toUpper(req.body.book_ISBN);
     Book.findOne({ book_ISBN: bISBN }, function (err, found) {
@@ -202,7 +202,7 @@ app.post("/addBook", function (req, res) {
 });
 
 
-// Issue a book
+//============================================== Issue a book ==========================================
 app.post("/issue", function (req, res) {
     var returnObject = {
         Status: false,
@@ -227,6 +227,40 @@ app.post("/issue", function (req, res) {
     NewIssue.save();
     res.send(returnObject);
 });
+
+
+//========================================== Returning a book ==========================================
+app.post("/return", function (res, req) {
+    var returnObject = {
+        Status: false,
+        StatusMessage: "",
+    };
+    const returned_ISBN = req.body.book_ISBN;
+
+    Lib.findOneAndUpdate({ 'book.book_ISBN': returned_ISBN }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
+        if (err) {
+            console.log(err);
+            returnObject.StatusMessage = err;
+        }
+        else {
+            returnObject.Status = true;
+            console.log(updated);
+        }
+    });
+    Issue.findOneAndDelete({ 'issued_ISBN': returned_ISBN }, function (err) {
+        if (err) {
+            returnObject.StatusMessage = err;
+        }
+        else {
+            returnObject.Status = true;
+            console.log("Deleted the entry");
+        }
+    });
+    res.send(returnObject);
+});
+
+
+// res.send(returnObject)
 
 // const SRollNo = "190010034";
 // const IssuedBook = "2222";
