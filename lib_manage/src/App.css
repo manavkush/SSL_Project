@@ -1,3 +1,63 @@
+/* @media screen and (max-width: 480px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 1920px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@media screen and (min-width: 1921px) {
+  html * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+} */
+
+html * {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+}
 .App {
   text-align: center;
 }
@@ -5,12 +65,6 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -27,12 +81,450 @@
 .App-link {
   color: #61dafb;
 }
+.iframeVideo{
+  max-height:420px;
+  
+  min-height:200px;
+}
+.Button {
+  background-color: #8930b1 !important;
+  border-color: #8930b1 !important;
+  margin: 10px 30px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600 !important;
+  color: white;
+  border-radius: 30px !important;
+  padding: 5px 15px !important;
+  font-size: 1.3rem !important;
+}
+.Button:focus,
+.Button:active {
+  outline: none !important;
+  box-shadow: none;
+}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.Button:hover {
+  background-color: #6f2891 !important;
+  border-color: #6f2891 !important;
+  margin: 10px 30px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  border-radius: 30px !important;
+}
+
+.NavBar {
+  background-color: transparent !important;
+  color: white !important;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  z-index: 100;
+}
+
+.NavLink {
+  background-color: transparent !important;
+  color: rgba(0, 0, 0, 1) !important;
+}
+.primary_Text {
+  font-family: "Quicksand", sans-serif;
+}
+.accountbasics {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: #6f2891;
+}
+.accountposElement {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #6f2891;
+}
+.accountposElement ul {
+  max-height: 180px;
+  overflow-y: auto;
+}
+.back {
+  position: fixed;
+  width: 100%;
+  max-width: 100% !important;
+  top: 0;
+}
+.accountheading {
+  font-size: 26px;
+  font-weight: 540;
+  color: black;
+}
+
+.error {
+  color: #434e65;
+  text-align: center;
+  font-size: 18px;
+}
+.erroricon {
+  font-size: 60px;
+  color: white;
+  margin: auto;
+}
+.errorheader {
+  background-color: crimson;
+  opacity: 0.8;
+}
+.ooops {
+  font-size: 35px;
+  text-align: center;
+  color: #434e65;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+.errorclose {
+  margin: auto !important;
+  border-radius: 7px !important;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.profilehead {
+  font-size: 35px;
+  margin: auto;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+}
+.profileheadparent {
+  background: linear-gradient(
+    -90deg,
+    #2a073a,
+    #6f2891 100%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  color: white !important;
+}
+.profileclosebtn {
+  background-color: crimson !important;
+  border-color: crimson !important;
+  border-radius: 7px !important;
+  font-size: 20px !important;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  padding: 7px 20px !important;
+}
+.profileclosebtnparent {
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 23px;
+}
+.positionshead {
+  font-family: "Quicksand", sans-serif;
+  letter-spacing: 1px;
+  text-align: center;
+  font-size: 40px;
+  background-color: #6f2891;
+  background: linear-gradient(
+    -90deg,
+    #2a073a,
+    #6f2891 100%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  color: white;
+  width: 100%;
+  padding: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.forpos {
+  transition: opacity 1s;
+}
+.deskfilterbtngrp {
+  text-align: center;
+}
+.deskfilterbtngrp .btn {
+  margin: 0.5%;
+}
+.deskfilterbtngrp .btn:focus {
+  box-shadow: 0 0 0 0rem rgb(38 143 255 / 0%)!important;
+}
+.mobfilterbtngrp {
+  display: none;
+}
+.activefilterbtn {
+  background-color: #8930b1 !important; /* Blue background */
+  border: 2px solid #8930b1 !important;
+  border-radius: 15px !important;
+  color: white !important; /* White text */
+}
+.inactivefilterbtn {
+  background-color: white !important; /* Blue background */
+  border: 2px solid #8930b1 !important;
+  border-radius: 15px !important;
+  color: #8930b1 !important; /* White text */
+  opacity: 0.6;
+}
+
+@media only screen and (max-width: 1150px) {
+  .positionshead {
+    font-size: 38px;
   }
-  to {
-    transform: rotate(360deg);
+}
+@media only screen and (max-width: 960px) {
+  .positionshead {
+    font-size: 32px;
+  }
+}
+@media only screen and (max-width: 760px) {
+  .positionshead {
+    font-size: 28px;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .logonav {
+    display: block;
+    height: 75px;
+    max-width: 100% !important;
+  }
+  .headernav {
+    display: none;
+  }
+  .NavBar {
+    background-color: transparent !important;
+    color: white !important;
+    font-family: "Quicksand", sans-serif;
+    position: relative;
+    margin-left: 30px;
+  }
+
+  .NavLink {
+    background-color: transparent !important;
+    color: rgba(0, 0, 0, 1) !important;
+    display: inline-block;
+    font-weight: 800;
+    font-family: "Quicksand", sans-serif;
+    opacity: 0.75;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: start !important;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+    font-size: 18px;
+    padding: 10px !important;
+  }
+  .selected {
+    color: rgb(156, 7, 37) !important;
+    font-weight: 1000;
+    opacity: 1 !important;
+  }
+  .primary_Text {
+    color: #752a87;
+    font-size: 2rem !important;
+
+    font-family: "Quicksand", sans-serif;
+  }
+  .NavLink:hover {
+    opacity: 1;
+    color: #752a87;
+  }
+
+  .NavLink::before {
+    transition: 300ms;
+    height: 2px;
+    content: "";
+    position: absolute;
+    background-color: #752a87;
+  }
+
+  .NavLink::before {
+    width: 0%;
+    left: 5%;
+    right: 5%;
+    bottom: 10px;
+  }
+
+  .NavLink:hover::before {
+    width: 90%;
+  }
+  .secondary_Text {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600 !important;
+    font-size: 1.4rem !important;
+    text-align: center !important;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .logonav {
+    display: block;
+    height: 45px;
+    max-width: 100% !important;
+  }
+  .headernav {
+    display: block;
+  }
+  .NavBar {
+    background-color: transparent !important;
+    color: white !important;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 500;
+    position: relative;
+  }
+
+  .NavLink {
+    background-color: transparent !important;
+    color: rgba(0, 0, 0, 1) !important;
+    font-family: "Quicksand", sans-serif;
+    position: relative;
+    font-weight: 800;
+  }
+  .primary_Text {
+    color: #752a87;
+    font-size: 1.2rem !important;
+
+    font-family: "Quicksand", sans-serif;
+  }
+  .selected {
+    color: rgb(156, 7, 37) !important;
+    font-weight: 1000;
+    opacity: 1 !important;
+  }
+  .secondary_Text {
+    display: block;
+    padding: 3px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 0 10px;
+
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem !important;
+  }
+}
+
+@media only screen and (max-device-width: 480px) {
+  .teammobile {
+    display: block;
+  }
+  .teamdesk {
+    display: none;
+  }
+
+  .topbannerteam {
+    max-width: 100%;
+    height: auto !important;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-gap: 10px;
+  }
+
+  .topbannerimgteam {
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .titlebanteam {
+    width: 100%;
+    height: auto;
+    align-self: end !important;
+    justify-self: start;
+    font-family: "Quicksand", sans-serif;
+    font-size: 2rem;
+    margin: auto;
+    text-align: start;
+    color: #752a87;
+    padding-left: 1rem;
+  }
+  .titlebanteam p {
+    font-size: 1.5rem;
+  }
+  .mobfilterbtngrp {
+    display: block;
+    text-align: center;
+  }
+  .filtermodalbtn-show {
+    color: #6f2891 !important;
+    border: 2px solid #6f2891 !important;
+    background-color: white !important;
+    width: 50%;
+    font-weight: 600;
+    font-size: 22px !important;
+  }
+  .mobfilterbtngrp-head {
+    text-align: center;
+    font-size: 40px;
+    background-color: #6f2891;
+    background: linear-gradient(
+      -90deg,
+      #2a073a,
+      #6f2891 100%,
+      rgba(0, 212, 255, 1) 100%
+    );
+    color: white;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 600 !important;
+  }
+  .mobfilterbtngrp-head .h4 {
+    font-size: 32px !important;
+    margin: auto;
+  }
+  .mobfilterbtngrp-body {
+    margin: 2%;
+    text-align: center;
+  }
+  .mobfilterbtngrp-body .btn {
+    margin: 2%;
+    width: 90%;
+    font-size: 18px;
+  }
+  .mobfilterbtngrp-body .btn:focus {
+    box-shadow: 0 0 0 0rem rgb(38 143 255 / 0%)!important;
+  }
+  .filtermodalbtn-apply {
+    color: white !important;
+    background-color: #581677 !important;
+    border-color: #581677 !important;
+    border-radius: 0;
+    font-size: 22px !important;
+    font-weight: 500 !important;
+  }
+  .deskfilterbtngrp {
+    display: none;
+  }
+  .iframeVideo{
+    height:50%;
+  }
+}
+
+@media only screen and (min-device-width: 481px) {
+  .teammobile {
+    display: none;
+  }
+  .teamdesk {
+    display: block;
+  }
+  .topbannerteam {
+    max-width: 100%;
+    height: auto !important;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-gap: 10px;
+  }
+
+  .topbannerimgteam {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .titlebanteam {
+    width: 100%;
+    height: auto;
+    align-self: end !important;
+    justify-self: start;
+    font-family: "Quicksand", sans-serif;
+    font-size: 5rem;
+    margin: auto auto 50px auto;
+    text-align: start;
+    color: #752a87;
+    padding-left: 4rem;
+  }
+  .titlebanteam p {
+    font-size: 2.5rem;
   }
 }

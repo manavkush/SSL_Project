@@ -1,17 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { withRouter } from 'react-router-dom';
+
+import "./App.css";
+import "./index.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  NavLink,
+} from "react-router-dom";
+
+const loader = document.querySelector(".book");
+
+const showLoader = () => loader.classList.remove("loader--hide");
+
+const hideLoader = () => loader.classList.add("loader--hide");
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <div>
+    <Router>
+      <App hideLoader={hideLoader} showLoader={showLoader} />
+    </Router>
+  </div>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
