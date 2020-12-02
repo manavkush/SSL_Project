@@ -149,7 +149,6 @@
     height: auto;
     grid-template-columns: 1fr 1fr 1.2fr 1.2fr;
     grid-template-rows: 2fr 5fr;
-    background-image: linear-gradient(to bottom, rgba(233, 222, 255, 1), rgba(255, 255, 255, 0.5)),  url(./hands.png);
     background-repeat:repeat-x;
     background-position: center bottom; 
     justify-items: center;
@@ -173,6 +172,34 @@
     border-radius: 20px 0px 20px 0px;
   }
 
+  .infcard{
+    display:grid;
+    background-color: #e9d8ff;
+    grid-gap: 50px;
+    color: #752a87;
+    padding: 50px;
+    font-size: 1.2em;
+    grid-template-columns: 1fr 1fr;
+  }
+  .infcardchild{
+    border-radius: 30px;
+    min-height: 500px;
+    text-align: center;
+    padding: 25px;
+    background-color: #efbbcf;
+  }
+  h2{
+    font-size: 2.5em !important;
+  }
+  .homepgimg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height:200px ;
+  }
+  .filt{
+    filter: invert(55%) sepia(93%) saturate(180%) hue-rotate(218deg) brightness(74%) contrast(84%);
+  }
   .tallinfo {
     /*font-size: calc(4.5rem - 0.6vw);*/
     font-size: 3vw;
@@ -202,6 +229,7 @@
     grid-column-start: 1;
     grid-column-end: 5;
   }
+  
   .markcal {
     margin: 30px auto 30px auto;
     font-size: 4rem;

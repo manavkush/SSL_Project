@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import logo from "./Components/Homedetails/logog.png"; // with import
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { withRouter } from 'react-router-dom';
 import Navbar from "react-bootstrap/Navbar";
 import Teampage from "./Components/Teampage/Teampage";
 import Electioncard from "./Components/Electioncard/Electioncard";
 import Nav from "react-bootstrap/Nav";
+import history from './history';
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -265,26 +267,6 @@ class NavBar extends Component {
 }
 
 
-
-
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <div>
-        <Homedetails
-          hideLoader={this.props.hideLoader}
-          showLoader={this.props.showLoader}
-        />
-      </div>
-    );
-  }
-}
-
 class Error extends Component {
   constructor(props) {
     super(props);
@@ -476,19 +458,19 @@ class App extends Component {
         }}
         timeout={7000}
       >
-        <Router>
+        <Router onUpdate={() => window.scrollTo(0, 0)} history={history}>
           <NavBar loginState={this.state.loginState} />
           <Switch>
             <Route
               path="/"
               exact
-              render={(props) => (
-                <Home
+              render={withRouter((props) => (
+                <Homedetails
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}
                 />
-              )}
+              ))}
             />
             <Route
               path="/admin"
@@ -505,13 +487,13 @@ class App extends Component {
             />
             <Route
               path="/library"
-              render={(props) => (
+              exact component={withRouter((props) => (
                 <Empty
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}
                 />
-              )}
+              ))}
             />
             <Route
               path="/printmg"
@@ -572,5 +554,5 @@ function fetchDetails(refresh) {
     return false;
   }
 }
-export default App;
+export default withRouter(App);
 // export  App, showModel, fetchDetails };
