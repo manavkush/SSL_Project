@@ -1,0 +1,73 @@
+.libstud{
+    transition: opacity 0.6s;
+	min-height: 100vh;
+	display: grid;
+	align-items: center;
+}
+
+/* * {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+:root {
+	font-size: calc(16px + (24 - 16)*(100vw - 320px)/(1920 - 320));
+}
+ button, input {
+	font: 1em Hind, sans-serif;
+	line-height: 1.5em;
+}
+body, input {
+	color: #171717;
+}*/
+
+.search-bar{
+	margin: auto;
+	top: 50%;
+	width: 50%;
+	position: relative;
+	align-items: center;
+	justify-items: center;
+}
+.search {
+	width: 100%;
+	position: relative;
+	display: flex;
+  }
+  
+  .searchTerm {
+	width: 100%;
+	border: 3px solid #00B4CC;
+	border-right: none;
+	padding: 5px;
+	height: 20px;
+	border-radius: 5px 0 0 5px;
+	outline: none;
+	color: #9DBFAF;
+  }
+  
+  .searchTerm:focus{
+	color: #00B4CC;
+  }
+  
+  .searchButton {
+	width: 40px;
+	height: 36px;
+	border: 1px solid #00B4CC;
+	background: #00B4CC;
+	text-align: center;
+	color: #fff;
+	border-radius: 0 5px 5px 0;
+	cursor: pointer;
+	font-size: 20px;
+  }
+  
+  /*Resize the wrap to see the search bar change!*/
+  .wrap{
+	width: 30%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  }

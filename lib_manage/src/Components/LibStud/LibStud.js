@@ -34,9 +34,17 @@ class LibStud extends React.Component {
                     className="libstud"
                     style={{ opacity: this.state.showImages ? 1 : 0 }}
                 >
-
+                    <div className="search-bar">
+                        <div class="search">
+                            <input type="text" class="searchTerm" placeholder="What are you looking for?" />
+                            <button type="submit" class="searchButton">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="searchResults"></div>
                 </div>
-            </OnImagesLoaded>
+            </OnImagesLoaded >
         );
     }
 }
