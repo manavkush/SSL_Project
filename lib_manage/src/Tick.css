@@ -1,0 +1,101 @@
+.tick {
+  font-size: 0.7rem;
+  white-space: nowrap;
+  font-family: arial, sans-serif;
+}
+
+.tick-flip,
+.tick-text-inline {
+  font-size: 2.5em;
+}
+
+.tick-label {
+  margin-top: 1em;
+  font-size: 1em;
+}
+
+.tick-char {
+  width: 1.5em;
+}
+
+.tick-text-inline {
+  display: inline-block;
+  text-align: center;
+  min-width: 1em;
+}
+
+.tick-text-inline + .tick-text-inline {
+  margin-left: -0.325em;
+}
+
+.tick-group {
+  margin: 0 0.5em;
+  text-align: center;
+}
+
+body {
+  background-color: #fff !important;
+}
+
+.tick-text-inline {
+  color: #595d63 !important;
+}
+
+.tick-label {
+  color: #595d63 !important;
+}
+
+.tick-flip-panel {
+  color: #fff !important;
+}
+
+.tick-flip {
+  font-family: !important;
+}
+
+.tick-flip-panel-text-wrapper {
+  line-height: 1.45 !important;
+}
+
+.tick-flip-panel {
+  background-color: #3c3e3c !important;
+}
+
+.tick-flip {
+  border-radius: 0.4em !important;
+}
+.enclose {
+  margin: auto;
+  width: 100%;
+}
+
+.timerbox {
+  height: auto;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 0.8fr) 0.2fr repeat(2, 0.8fr) 0.2fr repeat(
+      2,
+      0.8fr
+    ) 0.2fr repeat(2, 0.8fr);
+  justify-items: center;
+  align-items: center;
+}
+.tex {
+  font-size: 2rem;
+}
+.datevals {
+  height: auto;
+  width: 90%;
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 2fr 0.3fr 2fr 0.3fr 2fr 0.3fr 2fr;
+  justify-items: center;
+  align-items: center;
+}
+
+.colon {
+  font-size: 4rem;
+}
