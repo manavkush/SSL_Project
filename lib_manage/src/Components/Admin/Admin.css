@@ -1,53 +1,72 @@
-html {
-  font-family: "Quicksand", sans-serif;
-  font-weight: 600;
-}
 
-.admin-tab-bar {
-  text-align: center;
+.firstline{
+  display: grid;
+  grid-gap: 50px;
+  align-items: center;
+  grid-template-columns: 1fr  1fr;
+
+  justify-items: center;
+  width: 50%;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
-.admin-tab-bar a {
+.secondline{
+  display: grid;
+  grid-gap: 100px;
+  align-items: center;
+  grid-template-columns: auto auto auto;
+  justify-items: center;
+  width: 70%;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+.thirdline{
+  display: grid;
+  grid-gap: 50px;
+  align-items: center;
+  grid-template-columns: 1fr  1fr;
+
+  justify-items: center;
+  width: 50%;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.cerq {
+  height: 300px;
+  width: 300px;
+  cursor: pointer;
+  text-align: center;
+  background-color:#efbbcf;
+  border-radius: 50%;
   display: inline-block;
-  padding: 10px 20px;
-  color: black;
-  opacity: 0.9;
-  font-size: 22px;
-  margin: 0% 5%;
 }
-.nav-pills .nav-link.active {
-  background-color: #6f2891 !important ;
+.admtext{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1.5em;
 }
-
-.admin-tab-bar a:hover {
-  color: maroon;
-  opacity: 1;
+.cerqtext{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #752a87;
+  font-size: 1.7em;
 }
-.admin-datetimepicker {
-  padding: 20px;
-}
-.admin-impdates-label {
-  font-size: 34px;
-}
-.admin-impdates-col {
+.cerqadm {
+  display: grid;
+  height: 200px;
+  align-items: center;
+  justify-items:center;
   text-align: center;
-}
-.admin-impdates-btn {
-  margin: auto;
-  padding: 13px 25px !important;
-  font-size: 22px !important;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  border-radius: 13px!important;
-}
-.admin-impdates-msg-success{
-  margin: auto;
-  font-size: 30px;
-  color:green;
-}
-.admin-impdates-msg-error{
-  margin: auto;
-  font-size: 30px;
-  color:red;
+  width: 200px;
+  background-color: #8a77aa;
+  border-radius: 50%;
+  display: inline-block;
 }
 .adm{
   min-height:90vh;
