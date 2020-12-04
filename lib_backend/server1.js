@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
+const cors = require('cors');
 const _ = require('lodash');
 const { forEach } = require("lodash");
 
@@ -9,6 +12,13 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+// Enables the file uploading
+app.use(fileUpload());
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(morgan('dev'));
 
 // const items = ["Buy Food", "Cook Food", "Eat Food"];
 // const workItems = [];
@@ -123,13 +133,15 @@ Student.find({}, function (err, found) {
 
 
 
-var bname = "physi";
-bname = (_.toLower(bname));
-console.log(bname);
+// var bname = "physi";
+// bname = (_.toLower(bname));
+// console.log(bname);
 
 //================================================== Searching a book ==================================
 app.post("/search", function (req, res) {
-    const bname = _.lowerCase(req.body.book_name);
+    // const bname = _.lowerCase(req.body.book_name);
+    const bname = (req.body.book_name);
+    console.log(bname);
     var ret = [];
     Lib.find({ 'book.book_name': { $regex: bname } }, function (err, found) {
         if (err) console.log(err);
@@ -200,6 +212,42 @@ app.post("/addBook", function (req, res) {
     });
 
 });
+//================================================= Remove a book from library ==============================
+app.post("/removeBook", function (req, res) {
+    const bISBN = _.toUpper(req.body.book_ISBN);
+    const incrementValue = req.body.count;
+    var returnObject = {
+        Status: false,
+        StatusMessage: ""
+    };
+    Lib.findOne({ 'book.book_ISBN': bISBN }, function (err, found) {
+        if (!err) {
+            if (found) {
+                if (found.count <= incrementValue) {
+                    console.log("#");
+                    Lib.findOneAndDelete({ 'book.book_ISBN': bISBN }, (err, found) => {
+                        if (err) {
+                            returnObject.StatusMessage = err;
+                        } else {
+                            returnObject.Status = true;
+                        }
+                    });
+                    Book.findOneAndDelete({ 'book_ISBN': bISBN });
+                } else {
+                    console.log("*");
+                    Lib.findOneAndUpdate({ 'book.book_ISBN': bISBN }, { $inc: { count: -1 * incrementValue } }, { new: true }, (err, updated) => {
+                        console.log(updated);
+                    });
+                    returnObject.Status = true;
+                }
+            } else {
+                returnObject.StatusMessage = "Book not found";
+            }
+            res.send(returnObject);
+
+        }
+    });
+});
 
 
 //============================================== Issue a book ==========================================
@@ -259,6 +307,30 @@ app.post("/return", function (res, req) {
     res.send(returnObject);
 });
 
+//==================================== Adding a document for printing ==========================
+
+app.post("/print-query", function (req, res) {
+    var returnObject = {
+        Status: false,
+        StatusMessage: "",
+    };
+    if (!req.files) {
+        returnObject.Status = false;
+        returnObject.StatusMessage = "No file uploaded";
+    }
+    else {
+        const uploadedFile = req.files.file;
+        const fileName = uploadedFile.name;
+
+        uploadedFile.mv('./uploads/' + fileName);
+
+        res.send({
+            status: true,
+            message: "File uploaded"
+        });
+    }
+    res.send(returnObject);
+});
 
 // res.send(returnObject)
 
