@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { withRouter } from 'react-router-dom';
 import Navbar from "react-bootstrap/Navbar";
 import Teampage from "./Components/Teampage/Teampage";
+import LibStud from "./Components/LibStud/LibStud";
 import Electioncard from "./Components/Electioncard/Electioncard";
 import Nav from "react-bootstrap/Nav";
 import history from './history';
@@ -476,7 +477,7 @@ class App extends Component {
             <Route
               path="/admin"
               render={(props) => (
-                <Empty
+                <Admin
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}
@@ -489,7 +490,7 @@ class App extends Component {
             <Route
               path="/library"
               exact component={withRouter((props) => (
-                <Empty
+                <LibStud
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}

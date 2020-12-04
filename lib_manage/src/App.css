@@ -55,8 +55,9 @@
 } */
 
 html * {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Quicksand", sans-serif;
   font-weight: 500;
+  font-family: 'Roboto Mono', monospace;
 }
 .App {
   text-align: center;
@@ -87,8 +88,8 @@ html * {
   min-height:200px;
 }
 .Button {
-  background-color: #8930b1 !important;
-  border-color: #8930b1 !important;
+  background-color: #8675a9 !important;
+  border-color: #8675a9 !important;
   margin: 10px 30px;
   font-family: "Quicksand", sans-serif;
   font-weight: 600 !important;
