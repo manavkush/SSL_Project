@@ -477,7 +477,7 @@ class App extends Component {
             <Route
               path="/admin"
               render={(props) => (
-                <Empty
+                <Admin
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}

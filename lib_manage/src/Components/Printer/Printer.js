@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./Printer.css";
-import "C://Users//jprat//Desktop//SSL_Project//lib_manage//node_modules//bootstrap//dist//css//bootstrap.min.css";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function Printer(props) {
 
@@ -50,12 +50,12 @@ function Printer(props) {
 
 				<div class="form-group">
 					<label for="printingDetails">Printing Details</label>
-					<textarea class="form-control" rows="3" style={{ width: "50%" }} placeholder = {printingSpeci_ph}></textarea>
+					<textarea class="form-control" rows="3" style={{ width: "50%" }} placeholder={printingSpeci_ph}></textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="genInstruc">General Instructions</label>
-					<textarea class="form-control" rows="3" style={{ width: "50%" }} placeholder = {genInstruc_ph}></textarea>
+					<textarea class="form-control" rows="3" style={{ width: "50%" }} placeholder={genInstruc_ph}></textarea>
 				</div>
 
 				<div className="form-group">
