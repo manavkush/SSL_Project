@@ -2,7 +2,7 @@ import React from 'react';
 import './Card.css'
 import Reveal from 'react-reveal/Reveal';
 import Fade from 'react-reveal/Fade';
-import {showModel} from './../../App.js'
+
 const Card = ({
   cand_imgsrc,
   cand_name,
@@ -13,52 +13,25 @@ const Card = ({
   id,
 }) => {
   return (
-    <div className="card">
-      <Reveal effect="animtop">
-        <div className="ds-top" />
-      </Reveal>
-      <Reveal effect="animprof">
-        <div className="avatar-holder">
-          <img src={cand_imgsrc} className="cardimg" alt="Albert Einstein" />
-        </div>
-      </Reveal>
+    <div className="books">
 
-      <Fade left>
-        <div className="name">
-          <div id="namex" href="#">
-            {cand_name}
-          </div>
-          
-          <div id="dept" href=''>
-            {cand_branch}
-          </div>
-          
-          <div id="email" href="#">
-            {cand_id}
-          </div>
-          
+      <Fade >
+        <div className="bookinf">
+          <div className="bookinfhead">Book name:<br /></div>
+            Concepts of Physics<br />
+          <div className="bookinfhead">Author:</div>
+            HCV<br />
+          <div className="bookinfhead">Genre:</div>
+            Phyzix<br />
+          <div className="bookinfhead"> ISBN:</div>
+            123456789<br />
+          <div className="bookinfhead">Count available:</div>
+            50<br />
         </div>
-      </Fade>
-      <div className="buttonhold">
-        <button
-          className="Button_Secondary"
-          onClick={() => {
-            window.open(cand_manifesto);
-          }}
-        >
-          <i className="fa fa-file" aria-hidden="true"></i> Manifesto
-        </button>
-        <button
-          className="Button_Secondary"
-          onClick={() => {
-            showModel(true, cand_intro);
-          }}
-        >
-          <i className="fa fa-youtube-play" aria-hidden="true"></i> Intro
-        </button>
-      </div>
-      
-    </div>
+      </Fade >
+
+
+    </div >
   );
 };
 

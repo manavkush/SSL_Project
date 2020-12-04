@@ -1,34 +1,15 @@
 .libstud{
     transition: opacity 0.6s;
-	min-height: 100vh;
 	display: grid;
+	grid-template-rows: auto auto 1fr;
 	align-items: center;
+	min-height: 85vh;
 }
 
-/* * {
-	border: 0;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-:root {
-	font-size: calc(16px + (24 - 16)*(100vw - 320px)/(1920 - 320));
-}
- button, input {
-	font: 1em Hind, sans-serif;
-	line-height: 1.5em;
-}
-body, input {
-	color: #171717;
-}*/
 
 .search-bar{
 	margin: auto;
-	top: 50%;
 	width: 50%;
-	position: relative;
-	align-items: center;
-	justify-items: center;
 }
 .search {
 	width: 100%;
@@ -38,36 +19,59 @@ body, input {
   
   .searchTerm {
 	width: 100%;
-	border: 3px solid #00B4CC;
+	border: 3px solid #8675a9;
 	border-right: none;
 	padding: 5px;
-	height: 20px;
+	height: 70px;
+	font-size: 2em;
 	border-radius: 5px 0 0 5px;
 	outline: none;
-	color: #9DBFAF;
+	color: #8675a9;
   }
   
   .searchTerm:focus{
-	color: #00B4CC;
+	color: #752a87;
   }
   
+  .randtext{
+color:#752a87;
+font-size: 3em;
+text-align: center;
+margin-bottom: 40px;
+  }
   .searchButton {
-	width: 40px;
-	height: 36px;
-	border: 1px solid #00B4CC;
-	background: #00B4CC;
+	width: 70px;
+	height: 70px;
+	border: 1px solid #8675a9;
+	background: #8675a9;
 	text-align: center;
 	color: #fff;
 	border-radius: 0 5px 5px 0;
 	cursor: pointer;
-	font-size: 20px;
+	font-size: 30px;
   }
   
-  /*Resize the wrap to see the search bar change!*/
-  .wrap{
-	width: 30%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  .searchImg{
+	  margin: auto;
+  }
+  .searchImgI{
+	  max-height: 500px;
+  }
+  .searchResults{
+	  margin:50px;
+  }
+
+
+  .reshead h2{
+	  margin: 50px;
+	  color:#752a87;
+  }
+
+  .searchCont {
+	display: grid;
+	grid-gap: 70px;
+	grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+	align-content: center;
+	width: 85%;
+	margin: auto;
   }

@@ -12,6 +12,7 @@ import {
   Switch,
   NavLink,
 } from "react-router-dom";
+import Card from "./Components/Card/Card"
 
 const loader = document.querySelector(".book");
 

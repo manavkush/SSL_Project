@@ -1,162 +1,46 @@
-html {
-  font-family: "Quicksand", sans-serif;
-  font-weight: 600;
-}
-.card {
+
+.books{
   position: relative;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 270px;
-  height: 405px;
-  border-radius: 10px !important;
-  box-shadow: 0 10px 25px 5px rgba(0, 0, 0, 0.2);
-  background: white;
-  overflow: hidden;
-  font-family: "Quicksand", sans-serif;
-  font-weight: 600;
-}
-.card .ds-top {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  left: 0;
-  width: 270px;
-  height: 135px;
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(162, 57, 202, 1) 100%,
-    rgba(0, 212, 255, 1) 100%
-  );
-  /*	 animation: dsTop 1.5s;
-*/
-}
-.card .avatar-holder {
-  position: absolute;
-  margin: auto;
-  top: 65px;
-  right: 0;
-  left: 0;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 5px #151515, inset 0 0 0 5px #000, inset 0 0 0 5px #000,
-    inset 0 0 0 5px #000, inset 0 0 0 5px #000;
-  background: white;
-  overflow: hidden;
-  /*	 animation: mvTop 1.5s;
-*/
-}
-.card .avatar-holder img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.card .name {
-  position: relative;
-  margin: initial;
-  top: 220px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: inherit;
-  height: 100px;
-  text-align: center;
-
-  /*	 animation: fadeIn 2s ease-in;
-*/
-}
-.card .name div {
-  color: #0e0b16;
-  text-decoration: none;
-  font-weight: 700;
-}
-.card .name div:hover {
-  color: crimson;
-}
-#namex {
-  margin-top: 5%;
-  line-height: 27px;
-  font-size: 24px;
-}
-#dept {
-  line-height: 27px;
-  font-size: 20px;
-}
-#email {
-  line-height: 27px;
-  font-size: 17px;
-}
-.buttonhold {
-  position: absolute;
-  margin: 5px 5px;
-  bottom: 0px;
-  display: grid;
-  grid-gap: 10px;
-  width: 260px;
-  height: 40px;
-  grid-template-columns: 1fr 1fr;
-}
-.Button_Secondary {
-  background-color: white; /* Blue background */
-  border: 2px solid #8930b1 !important;
-  border-radius: 15px !important;
-  color: #8930b1 !important; /* White text */
-  padding: 3px 3px; /* Some padding */
-  font-size: 16px; /* Set a font size */
-  cursor: pointer; /* Mouse pointer on hover */
-}
-
-/* Darker background on mouse-over */
-.Button_Secondary:hover {
-  background-color: #8930b1;
-  color: white !important;
-}
-.Button_Secondary:focus {
-  outline:0!important;
-}
-.animtop {
-  animation: dsTop 1.5s;
-}
-.animprof {
-  animation: mvTop 1.5s;
-}
-.cardimg {
-  max-width: 100%;
-}
-
-@keyframes fadeInMove {
-  0% {
-    opacity: 0;
-    left: -300px;
+    width:320px;
+    height:420px;
+    background: #c3aed6;
+    border-radius: 20px 16px 12px 32px;
+    background-image: linear-gradient(to right,#8675a9 48px, #8675a9 50px, transparent 50px);  
   }
-  100% {
-    opacity: 1;
-    left: 0;
+  .books:after{
+      content: ""; 
+    position: absolute; 
+  
+    height: 52px;
+    width: 310px; 
+    bottom: 6px;
+    right:0px;
+    background: white;
+    border-radius: 32px 4px 4px 32px;
+    box-shadow: inset 4px 6px 0px 0px #E4E0CE;  
+    background-image: linear-gradient(to bottom, transparent 6px, #E4E0CE 8px, transparent 8px, transparent 12px, #E4E0CE 12px, transparent 14px, transparent 18px,#E4E0CE 18px, transparent 20px, transparent 24px, #E4E0CE 24px, transparent 26px, transparent 30px, #E4E0CE 30px, transparent 32px, transparent 36px, #E4E0CE 36px, transparent 38px, transparent 42px, #E4E0CE 42px, transparent 44px, transparent 48px, #E4E0CE 48px, transparent 50px);     
   }
-}
-
-@keyframes mvTop {
-  0% {
-    top: -150px;
+  .books:before{
+      content: ""; 
+    position: absolute; 
+  
+    height: 20px;
+    width: 160px; 
+    right: 40px;
+    top: 20px; 
+    background:#8675a9;
+    border-radius: 20px;
+    box-shadow: 0px 36px #8675a9;
+      
   }
-  100% {
-    top: 65px;
+  .bookinf{
+    width: 100%;
+    padding-left: 75px;
+    padding-top: 90px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: "..."; 
   }
-}
-@keyframes dsTop {
-  0% {
-    top: -135px;
+  .bookinfhead{
+color: rebeccapurple;
   }
-  100% {
-    top: 0;
-  }
-}
-.following {
-  color: white;
-  background: crimson;
-}
