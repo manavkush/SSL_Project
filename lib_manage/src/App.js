@@ -25,6 +25,7 @@ import Container from "react-bootstrap/Container";
 import OnImagesLoaded from "react-on-images-loaded";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import Admin from "./Components/Admin/Admin";
+import Printer from "./Components/Printer/Printer.js";
 
 
 
@@ -499,7 +500,7 @@ class App extends Component {
               path="/printmg"
               exact
               render={(props) => (
-                <Empty
+                <Printer
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}
