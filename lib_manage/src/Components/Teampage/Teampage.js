@@ -11,7 +11,6 @@ class Teampage extends React.Component {
     this.props.showLoader();
     this.state = {
       showImages: false,
-
     }
   }
   componentDidMount() {
