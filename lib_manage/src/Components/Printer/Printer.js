@@ -11,7 +11,7 @@ function Printer(props) {
 		<div className="container">
 			<h1 className="header">Hassle free Printing</h1>
 
-			<form className="formClass">
+			<form action="/printQuery" className="formClass" method="POST">
 				<div className="form-group">
 					<label for="uploadingFiles">Upload Files to Print</label>
 					<br />
