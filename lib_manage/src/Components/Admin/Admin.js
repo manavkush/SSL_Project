@@ -53,9 +53,14 @@ class Admin extends Component {
       preConfirm: () => {
         var bisbn = document.getElementById('swal-input1').value;
         var bcount = document.getElementById('swal-input2').value;
-
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title: 'React POST Request Example' })
+        };
         return fetch(
-          "https://election-website-test.herokuapp.com/accountdetails?tokenId=hello&rollno="
+          // "https://election-website-test.herokuapp.com/accountdetails?tokenId=hello&rollno="
+          "http://localhost:5000/printQuery", requestOptions
         )
           .then(response => {
             if (!response.ok) {
