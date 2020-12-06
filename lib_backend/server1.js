@@ -303,8 +303,11 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
-app.post('/printmg/uploadDoc',(req,res)=>{
-    console.log("post req");
+console.log("Checking");
+
+
+app.post('/upload',(req,res)=>{
+    console.log("Testing");
     console.log(req.body);
 })
 
