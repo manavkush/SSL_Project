@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const app = express();
 const _ = require('lodash');
 const { forEach } = require("lodash");
-
+var cors = require('cors')
 const path = require('path');
 const crypto = require('crypto');
 const multer = require('multer');
@@ -12,7 +12,7 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 
-
+app.use(cors());
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -285,19 +285,19 @@ app.post("/return", function (res, req) {
 const storage = new GridFsStorage({
     url: "mongodb://localhost:27017/lib_manage",
     file: (req, file) => {
-      return new Promise((resolve, reject) => {
-        crypto.randomBytes(16, (err, buf) => {
-          if (err) {
-            return reject(err);
-          }
-          const filename = buf.toString('hex') + path.extname(file.originalname);
-          const fileInfo = {
-            filename: filename,
-            bucketName: 'uploads'
-          };
-          resolve(fileInfo);
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
         });
-      });
     }
 });
 
@@ -306,7 +306,7 @@ const upload = multer({ storage });
 console.log("Checking");
 
 
-app.post('/upload',(req,res)=>{
+app.post('/upload', (req, res) => {
     console.log("Testing");
     console.log(req.body);
 })

@@ -122,43 +122,11 @@ html {
   .Button_Secondary:focus {
     outline:0!important;
   }
-  .animtop {
-    animation: dsTop 1.5s;
-  }
-  .animprof {
-    animation: mvTop 1.5s;
-  }
   .cardimg {
     max-width: 100%;
   }
   
-  @keyframes fadeInMove {
-    0% {
-      opacity: 0;
-      left: -300px;
-    }
-    100% {
-      opacity: 1;
-      left: 0;
-    }
-  }
   
-  @keyframes mvTop {
-    0% {
-      top: -150px;
-    }
-    100% {
-      top: 65px;
-    }
-  }
-  @keyframes dsTop {
-    0% {
-      top: -135px;
-    }
-    100% {
-      top: 0;
-    }
-  }
   .following {
     color: white;
     background: crimson;

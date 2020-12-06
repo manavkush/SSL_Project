@@ -53,9 +53,13 @@ class Admin extends Component {
       preConfirm: () => {
         var bisbn = document.getElementById('swal-input1').value;
         var bcount = document.getElementById('swal-input2').value;
-
+        var requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ color: "Blue", size: "IDK", copies: "copies", both: "both", details: "details" })
+        };
         return fetch(
-          "https://election-website-test.herokuapp.com/accountdetails?tokenId=hello&rollno="
+          "http://localhost:5000/upload", requestOptions
         )
           .then(response => {
             if (!response.ok) {
@@ -72,25 +76,26 @@ class Admin extends Component {
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        var data = result.value[0];
-        Swal.fire({
-          title: `<strong>User ${data.voter_id} Info</strong>`,
-          icon: 'info',
-          html:
-            `<div style=text-align:start>` +
-            `<b>Student name: </b>${data.voter_name}, <br>` +
-            `<b>Branch: </b>${data.voter_branch},<br> ` +
-            `<b>Current Book issued: </b><br> ` +
-            `<b>Pending date of return: </b><br>` +
-            `<b>Pending charges: </b><br>` +
-            '</div>',
-          showCloseButton: true,
-          showCancelButton: false,
-          focusConfirm: false,
-          confirmButtonText:
-            '<i class="fa fa-thumbs-up"></i> Great!',
-          confirmButtonAriaLabel: 'Thumbs up, great!',
-        })
+        console.log(result.value);
+        // var data = result.value[0];
+        // Swal.fire({
+        //   title: `<strong>User ${data.voter_id} Info</strong>`,
+        //   icon: 'info',
+        //   html:
+        //     `<div style=text-align:start>` +
+        //     `<b>Student name: </b>${data.voter_name}, <br>` +
+        //     `<b>Branch: </b>${data.voter_branch},<br> ` +
+        //     `<b>Current Book issued: </b><br> ` +
+        //     `<b>Pending date of return: </b><br>` +
+        //     `<b>Pending charges: </b><br>` +
+        //     '</div>',
+        //   showCloseButton: true,
+        //   showCancelButton: false,
+        //   focusConfirm: false,
+        //   confirmButtonText:
+        //     '<i class="fa fa-thumbs-up"></i> Great!',
+        //   confirmButtonAriaLabel: 'Thumbs up, great!',
+        // })
       }
     })
   }
