@@ -5,22 +5,32 @@ const app = express();
 const _ = require('lodash');
 const { forEach } = require("lodash");
 
+const path = require('path');
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const methodOverride = require('method-override');
+
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// const items = ["Buy Food", "Cook Food", "Eat Food"];
-// const workItems = [];
 
 mongoose.connect("mongodb://localhost:27017/lib_manage", { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
+
+let gfs;
 db.once("open", function () {
-    console.log("Connection Successful!");
+    gfs = Grid(db.db, mongoose.mongo);
+    gfs.collection('uploads');
 });
 
 
+console.log("Server Spinnning !!!!");
 
 const bookSchema = new mongoose.Schema({
     book_name: String,
@@ -125,7 +135,7 @@ Student.find({}, function (err, found) {
 
 var bname = "physi";
 bname = (_.toLower(bname));
-console.log(bname);
+// console.log(bname);
 
 //================================================== Searching a book ==================================
 app.post("/search", function (req, res) {
@@ -269,24 +279,43 @@ app.post("/return", function (res, req) {
 
 // })
 
+//----------------------------Printing Files-------------------------
+
+// Create storage engine
+const storage = new GridFsStorage({
+    url: "mongodb://localhost:27017/lib_manage",
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = buf.toString('hex') + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'uploads'
+          };
+          resolve(fileInfo);
+        });
+      });
+    }
+});
+
+const upload = multer({ storage });
+
+console.log("Checking");
 
 
-
-
-
-
-
-
-
-
-
-
+app.post('/upload',(req,res)=>{
+    console.log("Testing");
+    console.log(req.body);
+})
 
 
 
 let port = process.env.PORT;
 if (port == null || port === "") {
-    port = 3000;
+    port = 5000;
 }
 
 app.listen(port, function () {
