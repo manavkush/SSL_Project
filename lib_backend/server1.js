@@ -90,10 +90,10 @@ const issuedBookSchema = new mongoose.Schema({
     issued_ISBN: String
 });
 const Issue = new mongoose.model("Issue", issuedBookSchema);
-// const firstIssue = new Issue({
-//     issued_rollno: student1.student_rollno,
-//     issued_ISBN: book1.book_ISBN
-// });
+const firstIssue = new Issue({
+    issued_rollno: student1.student_rollno,
+    issued_ISBN: book1.book_ISBN
+});
 Book.find({}, function (err, found) {
     if (!err) {
         if (found.length === 0) {
@@ -121,14 +121,14 @@ Student.find({}, function (err, found) {
     }
     else console.log(err);
 })
-// Issue.find({}, function (err, found) {
-//     if (!err) {
-//         if (found.length === 0) {
-//             firstIssue.save();
-//         }
-//     }
-//     else console.log(err);
-// })
+Issue.find({}, function (err, found) {
+    if (!err) {
+        if (found.length === 0) {
+            firstIssue.save();
+        }
+    }
+    else console.log(err);
+})
 
 
 
@@ -391,11 +391,11 @@ app.post("/printQuery", function (req, res) {
 
 
 
-// let port = process.env.PORT;
-// if (port == null || port === "") {
-//     port = 5000;
-// }
+let port = process.env.PORT;
+if (port == null || port === "") {
+    port = 5000;
+}
 
-app.listen(5000, function () {
+app.listen(port, function () {
     console.log("Server started sucessfully");
 });
