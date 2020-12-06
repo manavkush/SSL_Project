@@ -66,12 +66,12 @@ function Printer(props) {
 		<div className="container">
 			<h1 className="header">Hassle free Printing</h1>
 
-			<form onSubmit={handleSubmit} className="formClass" encType = "multipart/form-data">
-				//-----------File----------------------------------------
+
+			<form action="http://localhost:5000/printQuery" className="formClass" method="POST">
 				{/* <div className="form-group">
-					<label for="uploadingFiles " >Upload Files to Print</label>
+					<label for="uploadingFiles">Upload Files to Print</label>
 					<br />
-					<input type="file" name="file" id = "file"/>
+					<input type="file" multiple />
 				</div> */}
 
 				//-----------Color-------------------------------------

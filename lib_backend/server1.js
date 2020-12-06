@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
+const cors = require('cors');
 const _ = require('lodash');
 const { forEach } = require("lodash");
 
@@ -17,6 +20,17 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+
+// Enables the file uploading
+app.use(fileUpload());
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(morgan('dev'));
+
+// const items = ["Buy Food", "Cook Food", "Eat Food"];
+// const workItems = [];
 
 
 mongoose.connect("mongodb://localhost:27017/lib_manage", { useNewUrlParser: true });
@@ -133,16 +147,32 @@ Student.find({}, function (err, found) {
 
 
 
-var bname = "physi";
-bname = (_.toLower(bname));
+
+// var bname = "physi";
+// bname = (_.toLower(bname));
 // console.log(bname);
 
 //================================================== Searching a book ==================================
 app.post("/search", function (req, res) {
-    const bname = _.lowerCase(req.body.book_name);
-    var ret = [];
+    // const bname = _.lowerCase(req.body.book_name);
+    const bname = (req.body.book_name);
+    console.log(bname);
+
     Lib.find({ 'book.book_name': { $regex: bname } }, function (err, found) {
-        if (err) console.log(err);
+        var returnObject = {
+            Status: true,
+            Books: [],
+            StatusMessage: "Found the books"
+        }
+        var ret = [];
+        if (err) {
+            console.log(err);
+            res.send({
+                Status: false,
+                Books: [],
+                StatusMessage: err
+            });
+        }
         else {
             console.log(found);
             found.forEach(function (item) {
@@ -153,9 +183,9 @@ app.post("/search", function (req, res) {
                     "book_genre": item.book.book_genre,
                     "book_count": item.count
                 }
-                ret.push(obj);
+                returnObject.Books.push(obj);
             });
-            res.send(ret);
+            res.send(returnObject);
         }
     });
 });
@@ -166,8 +196,8 @@ app.post("/addBook", function (req, res) {
     const bISBN = _.toUpper(req.body.book_ISBN);
     Book.findOne({ book_ISBN: bISBN }, function (err, found) {
         var returnObject = {
-            Status: false,
-            StatusMessage: ""
+            Status: true,
+            StatusMessage: "Added the book to the library"
         };
 
         if (!err) {
@@ -191,18 +221,20 @@ app.post("/addBook", function (req, res) {
             }
             else {
                 const incrementValue = req.body.count;
-                Lib.findOneAndUpdate({ 'book.book_ISBN': bISBN }, { $inc: { 'count': incrementValue } }, { new: true }, function (err, updated) {
+                Lib.findOneAndUpdate({ 'book.book_ISBN': bISBN }, { $inc: { 'count': incrementValue } }, { new: true }, (err, updated) => {
                     if (err) {
-                        console.log(err);
-                        returnObject.StatusMessage = err;
+                        res.send({
+                            Status: false,
+                            StatusMessage: err
+                        });
                     } else {
                         console.log(updated);
-                        returnObject.Status = true;
                     }
                 });
             }
         }
         else {
+            returnObject.Status = false;
             returnObject.StatusMessage = err;
         }
 
@@ -210,64 +242,144 @@ app.post("/addBook", function (req, res) {
     });
 
 });
-
-
-//============================================== Issue a book ==========================================
-app.post("/issue", function (req, res) {
+//================================================= Remove a book from library ==============================
+app.post("/removeBook", function (req, res) {
     var returnObject = {
-        Status: false,
+        Status: true,
         StatusMessage: ""
     };
-    const SRollNo = req.body.student_rollno;
-    const IssuedBook = req.body.book_ISBN;
-    Lib.findOneAndUpdate({ 'book.book_ISBN': IssuedBook }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
-        if (err) {
-            console.log(err);
-            returnObject.StatusMessage = err;
+    const bISBN = _.toUpper(req.body.book_ISBN);
+    const incrementValue = req.body.count;
+    Lib.findOne({ 'book.book_ISBN': bISBN }, function (err, found) {
+        if (!err) {
+            if (found) {
+                if (found.count <= incrementValue) {
+                    Lib.findOneAndDelete({ 'book.book_ISBN': bISBN }, (err, found) => {
+                        if (err) {
+                            res.send({
+                                Status: false,
+                                StatusMessage: err
+                            });
+                        }
+                    });
+                    Book.findOneAndDelete({ 'book_ISBN': bISBN });
+                }
+                else {
+                    Lib.findOneAndUpdate({ 'book.book_ISBN': bISBN }, { $inc: { count: -1 * incrementValue } }, { new: true }, (err, updated) => {
+                        console.log(updated);
+                    });
+                }
+            } else {
+                res.send({
+                    Status: false,
+                    StatusMessage: "Book not found"
+                });
+            }
+            res.send(returnObject);
         }
         else {
-            returnObject.Status = true;
-            console.log(updated);
+            res.send({
+                Status: false,
+                StatusMessage: err
+            });
         }
     });
-    const NewIssue = new Issue({
-        issued_rollno: SRollNo,
-        issued_ISBN: IssuedBook
-    });
-    NewIssue.save();
     res.send(returnObject);
 });
 
 
-//========================================== Returning a book ==========================================
-app.post("/return", function (res, req) {
+//============================================== Issue a book ==========================================
+app.post("/issue", function (req, res) {
+    console.log("Issuing")
     var returnObject = {
-        Status: false,
+        Status: true,
+        StatusMessage: "Issued the book"
+    };
+    const SRollNo = req.body.student_rollno;
+    const IssuedBook = req.body.book_ISBN;
+    Lib.findOneAndUpdate({ 'book.book_ISBN': IssuedBook }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
+
+        if (err) {
+            console.log(err);
+            res.send({
+                Status: false,
+                StatusMessage: err
+            });
+        }
+        else {
+            returnObject.Status = true;
+            console.log(updated);
+            const NewIssue = new Issue({
+                issued_rollno: SRollNo,
+                issued_ISBN: IssuedBook
+            });
+            NewIssue.save();
+        }
+    });
+    res.send(returnObject);
+
+});
+
+
+//========================================== Returning a book ==========================================
+app.post("/return", function (req, res) {
+    console.log("REturning a book")
+    var returnObject = {
+        Status: true,
         StatusMessage: "",
     };
-    const returned_ISBN = req.body.book_ISBN;
+    var returned_ISBN = req.body.book_ISBN;
 
     Lib.findOneAndUpdate({ 'book.book_ISBN': returned_ISBN }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
         if (err) {
             console.log(err);
             returnObject.StatusMessage = err;
+            res.send({
+                Status: false,
+                StatusMessage: "Couldn't find and update",
+            });
         }
         else {
-            returnObject.Status = true;
             console.log(updated);
         }
     });
     Issue.findOneAndDelete({ 'issued_ISBN': returned_ISBN }, function (err) {
         if (err) {
             returnObject.StatusMessage = err;
+            res.send({
+                Status: false,
+                StatusMessage: "Couldn't find and delete",
+            });
         }
         else {
-            returnObject.Status = true;
             console.log("Deleted the entry");
         }
     });
     res.send(returnObject);
 });
+
+//==================================== Adding a document for printing ==========================
+
+app.post("/printQuery", function (req, res) {
+    console.log("Entered");
+    console.log(req.body);
+    var returnObject = {
+        Status: true,
+        StatusMessage: "Successfully Added the document to the queue",
+    };
+    if (!req.files) {
+        returnObject.Status = false;
+        returnObject.StatusMessage = "No file uploaded";
+    }
+    else {
+        const uploadedFile = req.files.file;
+        const fileName = uploadedFile.name;
+
+        uploadedFile.mv('./uploads/' + fileName);
+    }
+    res.send(returnObject);
+});
+
 
 
 // res.send(returnObject)
@@ -313,11 +425,11 @@ app.post('/upload',(req,res)=>{
 
 
 
-let port = process.env.PORT;
-if (port == null || port === "") {
-    port = 5000;
-}
+// let port = process.env.PORT;
+// if (port == null || port === "") {
+//     port = 5000;
+// }
 
-app.listen(port, function () {
+app.listen(5000, function () {
     console.log("Server started sucessfully");
 });
