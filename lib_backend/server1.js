@@ -8,10 +8,19 @@ const cors = require('cors');
 const _ = require('lodash');
 const { forEach } = require("lodash");
 
+const path = require('path');
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const methodOverride = require('method-override');
+
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
 
 // Enables the file uploading
 app.use(fileUpload());
@@ -23,14 +32,19 @@ app.use(morgan('dev'));
 // const items = ["Buy Food", "Cook Food", "Eat Food"];
 // const workItems = [];
 
+
 mongoose.connect("mongodb://localhost:27017/lib_manage", { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
+
+let gfs;
 db.once("open", function () {
-    console.log("Connection Successful!");
+    gfs = Grid(db.db, mongoose.mongo);
+    gfs.collection('uploads');
 });
 
 
+console.log("Server Spinnning !!!!");
 
 const bookSchema = new mongoose.Schema({
     book_name: String,
@@ -129,6 +143,7 @@ Issue.find({}, function (err, found) {
     }
     else console.log(err);
 })
+
 
 
 
@@ -376,18 +391,37 @@ app.post("/printQuery", function (req, res) {
 
 // })
 
+//----------------------------Printing Files-------------------------
+
+// Create storage engine
+const storage = new GridFsStorage({
+    url: "mongodb://localhost:27017/lib_manage",
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = buf.toString('hex') + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'uploads'
+          };
+          resolve(fileInfo);
+        });
+      });
+    }
+});
+
+const upload = multer({ storage });
+
+console.log("Checking");
 
 
-
-
-
-
-
-
-
-
-
-
+app.post('/upload',(req,res)=>{
+    console.log("Testing");
+    console.log(req.body);
+})
 
 
 

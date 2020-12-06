@@ -1,80 +1,168 @@
-
-
-.containercard {
-  height: 280px;
-    width: 250px;
-    box-shadow: 0 10px 20px black;
-    background-size: cover;
-    font-family: 'Roboto', sans-serif;
-max-width: 100%;
-position: relative;
-border-radius:10px !important;
-margin-bottom: 20px;
-
-
-}
-
-  
-.containercard img{
-  height: 100%;
-      width: 100%;
-      object-fit: cover;
-      border-radius:10px !important;
-
-}
-
-.gradient {
-    height: 100%;
-    width: 100%;
+html {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+  .card {
+    position: relative;
+    margin: auto;
     top: 0;
-    color: white;
-
-}
-
-.contentcard {
+    right: 0;
     bottom: 0;
+    left: 0;
+    width: 320px;
+    height: 450px;
+    border-radius: 10px !important;
+    box-shadow: 0 10px 25px 5px rgba(0, 0, 0, 0.2);
+    background: white;
+    overflow: hidden;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+  }
+  .card .ds-top {
     position: absolute;
-    margin-bottom: 20px;
-    padding: 20px;
-}
-
-h2 {
-    font-size: xx-large;
-    letter-spacing: -1px;
-}
-
-.details {
-    font-style: italic;
-    color: rgb(185, 206, 224);
-}
-
-.icons {
-    display: flex;
-    flex-direction: row;
+    margin: auto;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 320px;
+    height: 170px;
+    background: #8675a9;
+  }
+  .card .avatar-holder {
     position: absolute;
-}
-
-.icons i {
-    font-size: 25px;
-    margin-right: 20px;
-    color: rgb(202, 215, 226);
-    transition: 0.3s;
-}
-
-.icons i:hover {
+    margin: auto;
+    top: 80px;
+    right: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px #151515, inset 0 0 0 5px #000, inset 0 0 0 5px #000,
+      inset 0 0 0 5px #000, inset 0 0 0 5px #000;
+    background: white;
+    overflow: hidden;
+    /*	 animation: mvTop 1.5s;
+  */
+  }
+  .card .avatar-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card .name {
+    position: relative;
+    margin: initial;
+    top: 220px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: inherit;
+    min-height: 100px;
+    text-align: center;
+  
+    /*	 animation: fadeIn 2s ease-in;
+  */
+  }
+  .icons{
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+      font-size: 2em;
+      width: 50%;
+      margin: auto;
+  }
+  .card .name div {
+    color: #0e0b16;
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .card .name div:hover {
+    color: crimson;
+  }
+  #namex {
+    margin-top: 5%;
+    line-height: 27px;
+    font-size: 24px;
+  }
+  #dept {
+    line-height: 27px;
+    font-size: 20px;
+  }
+  #email {
+    line-height: 27px;
+    font-size: 17px;
+  }
+  .buttonhold {
+    position: absolute;
+    margin: 5px 5px;
+    bottom: 0px;
+    display: grid;
+    grid-gap: 10px;
+    width: 260px;
+    height: 40px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .Button_Secondary {
+    background-color: white; /* Blue background */
+    border: 2px solid #8930b1 !important;
+    border-radius: 15px !important;
+    color: #8930b1 !important; /* White text */
+    padding: 3px 3px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+  }
+  
+  /* Darker background on mouse-over */
+  .Button_Secondary:hover {
+    background-color: #8930b1;
+    color: white !important;
+  }
+  .Button_Secondary:focus {
+    outline:0!important;
+  }
+  .animtop {
+    animation: dsTop 1.5s;
+  }
+  .animprof {
+    animation: mvTop 1.5s;
+  }
+  .cardimg {
+    max-width: 100%;
+  }
+  
+  @keyframes fadeInMove {
+    0% {
+      opacity: 0;
+      left: -300px;
+    }
+    100% {
+      opacity: 1;
+      left: 0;
+    }
+  }
+  
+  @keyframes mvTop {
+    0% {
+      top: -150px;
+    }
+    100% {
+      top: 65px;
+    }
+  }
+  @keyframes dsTop {
+    0% {
+      top: -135px;
+    }
+    100% {
+      top: 0;
+    }
+  }
+  .following {
     color: white;
-}
-
-@media screen and(min-width:200px) {
-    .container {
-        height: 350px;
-        width: 200px;
-    }
-    h2 {
-        font-size: x-large;
-    }
-    .icons i {
-        font-size: large;
-        margin-bottom: 10px;
-    }
+    background: crimson;
+  }html {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
 }
