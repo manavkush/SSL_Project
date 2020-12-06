@@ -51,11 +51,13 @@ function Printer(props) {
 			body: JSON.stringify({ color :  color,size : size , copies : copies , both : both ,details : details})
 		};
 		console.log(requestOptions);
-		
+
 		fetch('http://localhost:5000/upload',requestOptions).then(function(response) {
 			console.log(response);
-			// return response.json();
-		});	
+			return response.json();
+		}).then(function(data){
+			console.log(data);
+		})
 	
 		event.preventDefault();
 

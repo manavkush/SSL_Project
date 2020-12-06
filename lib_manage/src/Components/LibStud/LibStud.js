@@ -17,7 +17,6 @@ class LibStud extends React.Component {
         this.state = {
             showImages: false,
             searchReady: true
-
         }
     }
     componentDidMount() {

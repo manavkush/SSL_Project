@@ -139,6 +139,7 @@ bname = (_.toLower(bname));
 
 //================================================== Searching a book ==================================
 app.post("/search", function (req, res) {
+    
     const bname = _.lowerCase(req.body.book_name);
     var ret = [];
     Lib.find({ 'book.book_name': { $regex: bname } }, function (err, found) {
