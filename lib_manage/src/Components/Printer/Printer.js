@@ -44,7 +44,7 @@ function Printer(props) {
 
 	function handleSubmit(event) {
 		console.log("Hello World");
-		// event.preventDefault();
+		event.preventDefault();
 		var requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -66,12 +66,12 @@ function Printer(props) {
 		<div className="container">
 			<h1 className="header">Hassle free Printing</h1>
 
-			<form onSubmit={handleSubmit} className="formClass" encType="multipart/form-data">
+			<form className="formClass" encType="multipart/form-data">
 				//-----------File----------------------------------------
 				{/* <div className="form-group">
-					<label for="uploadingFiles " >Upload Files to Print</label>
+					<label for="uploadingFiles">Upload Files to Print</label>
 					<br />
-					<input type="file" name="file" id = "file"/>
+					<input type="file" multiple />
 				</div> */}
 
 				//-----------Color-------------------------------------
@@ -120,7 +120,7 @@ function Printer(props) {
 
 				//---------------Submit----------------------------
 				<div className="form-group">
-					<button type="submit" class="btn btn-primary btn-block">Submit</button>
+					<button type="submit" class="btn btn-primary btn-block" onClick={handleSubmit}>Submit</button>
 				</div>
 			</form>
 		</div>
