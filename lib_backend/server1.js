@@ -155,7 +155,7 @@ Issue.find({}, function (err, found) {
 //================================================== Searching a book ==================================
 app.post("/search", function (req, res) {
     // const bname = _.lowerCase(req.body.book_name);
-    const bname = (req.body.book_name);
+    var bname = _.toUpper(req.body.book_name);
     console.log(bname);
 
     Lib.find({ 'book.book_name': { $regex: bname } }, function (err, found) {
@@ -164,13 +164,20 @@ app.post("/search", function (req, res) {
             Books: [],
             StatusMessage: "Found the books"
         }
-        var ret = [];
+        console.log(found);
         if (err) {
             console.log(err);
             res.send({
                 Status: false,
                 Books: [],
                 StatusMessage: err
+            });
+        }
+        if (found.length === 0) {
+            res.send({
+                Status: false,
+                Books: [],
+                StatusMessage: "No books found"
             });
         }
         else {
@@ -205,10 +212,10 @@ app.post("/addBook", function (req, res) {
             if (!found) {
                 const incrementValue = req.body.count;
                 const inbook = new Book({
-                    book_name: req.body.book_name,
-                    book_author: req.body.book_author,
-                    book_ISBN: req.body.book_ISBN,
-                    book_genre: req.body.book_genre,
+                    book_name: _.toUpper(req.body.book_name),
+                    book_author: _.toUpper(req.body.book_author),
+                    book_ISBN: _.toUpper(req.body.book_ISBN),
+                    book_genre: _.toUpper(req.body.book_genre),
                 })
                 inbook.save();
                 const libinsert = new Lib({
@@ -295,8 +302,8 @@ app.post("/issue", function (req, res) {
         Status: true,
         StatusMessage: "Issued the book"
     };
-    const SRollNo = req.body.student_rollno;
-    const IssuedBook = req.body.book_ISBN;
+    const SRollNo = _.toUpper(req.body.student_rollno);
+    const IssuedBook = _.toUpper(req.body.book_ISBN);
     Lib.findOneAndUpdate({ 'book.book_ISBN': IssuedBook }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
 
         if (err) {
@@ -304,6 +311,12 @@ app.post("/issue", function (req, res) {
             res.send({
                 Status: false,
                 StatusMessage: err
+            });
+        }
+        else if (!updated) {
+            res.send({
+                Status: false,
+                StatusMessage: "Couldn't find the book"
             });
         }
         else {
@@ -314,9 +327,9 @@ app.post("/issue", function (req, res) {
                 issued_ISBN: IssuedBook
             });
             NewIssue.save();
+            res.send(returnObject);
         }
     });
-    res.send(returnObject);
 
 });
 
@@ -326,36 +339,51 @@ app.post("/return", function (req, res) {
     console.log("REturning a book")
     var returnObject = {
         Status: true,
-        StatusMessage: "",
+        StatusMessage: "Book returned",
     };
-    var returned_ISBN = req.body.book_ISBN;
+    var returned_ISBN = _.toUpper(req.body.book_ISBN);
+    var student_rollno = _.toUpper(req.body.student_rollno);
 
-    Lib.findOneAndUpdate({ 'book.book_ISBN': returned_ISBN }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
+    Issue.findOneAndDelete({ 'issued_ISBN': returned_ISBN, 'issued_rollno': student_rollno }, function (err, deleted) {
+        console.log(deleted);
         if (err) {
-            console.log(err);
-            returnObject.StatusMessage = err;
             res.send({
                 Status: false,
-                StatusMessage: "Couldn't find and update",
+                StatusMessage: err,
             });
+            return;
         }
-        else {
-            console.log(updated);
-        }
-    });
-    Issue.findOneAndDelete({ 'issued_ISBN': returned_ISBN }, function (err) {
-        if (err) {
-            returnObject.StatusMessage = err;
+        else if (!deleted) {
             res.send({
                 Status: false,
-                StatusMessage: "Couldn't find and delete",
+                StatusMessage: "Couldn't find the entry"
             });
-        }
-        else {
-            console.log("Deleted the entry");
+        } else {
+            Lib.findOneAndUpdate({ 'book.book_ISBN': returned_ISBN }, { $inc: { 'count': 1 } }, { new: true }, function (err, updated) {
+                if (err) {
+                    console.log(err);
+                    res.send({
+                        Status: false,
+                        StatusMessage: err,
+                    });
+                    return;
+                }
+                else if (!updated) {
+                    res.send({
+                        Status: false,
+                        StatusMessage: "Didn't find the book"
+                    });
+                }
+                else {
+                    res.send({
+                        Status: true,
+                        StatusMessage: "Book returned",
+                    });
+                }
+            });
+
         }
     });
-    res.send(returnObject);
 });
 
 //==================================== Adding a document for printing ==========================
@@ -380,36 +408,25 @@ app.post("/printQuery", function (req, res) {
     res.send(returnObject);
 });
 
-
-
-// res.send(returnObject)
-
-// const SRollNo = "190010034";
-// const IssuedBook = "2222";
-// Lib.find({ 'book.book_ISBN': IssuedBook }, function (err, found) {
-//     console.log(found);
-
-// })
-
 //----------------------------Printing Files-------------------------
 
 // Create storage engine
 const storage = new GridFsStorage({
     url: "mongodb://localhost:27017/lib_manage",
     file: (req, file) => {
-      return new Promise((resolve, reject) => {
-        crypto.randomBytes(16, (err, buf) => {
-          if (err) {
-            return reject(err);
-          }
-          const filename = buf.toString('hex') + path.extname(file.originalname);
-          const fileInfo = {
-            filename: filename,
-            bucketName: 'uploads'
-          };
-          resolve(fileInfo);
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
         });
-      });
     }
 });
 
@@ -418,7 +435,7 @@ const upload = multer({ storage });
 console.log("Checking");
 
 
-app.post('/upload',(req,res)=>{
+app.post('/upload', (req, res) => {
     console.log("Testing");
     console.log(req.body);
 })
