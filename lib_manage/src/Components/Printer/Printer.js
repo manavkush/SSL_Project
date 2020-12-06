@@ -11,47 +11,48 @@ function Printer(props) {
 	const printingSpeci_ph = "Pages 1 - 4 EXCEPT Page 3 (Custom Text) ";
 	const genInstruc_ph = "General Instructions about the Print";
 
-	let [color,setColor] = useState("b/w");
+	let [color, setColor] = useState("b/w");
 
-	function handleColor(event){
+	function handleColor(event) {
 		setColor(event.target.value);
 	}
 
-	let [size,setSize] = useState("A3");
+	let [size, setSize] = useState("A3");
 
-	function handleSize(event){
+	function handleSize(event) {
 		setSize(event.target.value);
 	}
-	
 
-	let [copies,setCopies] = useState(1);
 
-	function handleCopies(event){
+	let [copies, setCopies] = useState(1);
+
+	function handleCopies(event) {
 		setCopies(event.target.value);
 	}
 
-	let [both,setBoth] = useState("Yes");
+	let [both, setBoth] = useState("Yes");
 
-	function handleBoth(event){
+	function handleBoth(event) {
 		setBoth(event.target.value);
 	}
 
-	let [details,setDetails] = useState("");
+	let [details, setDetails] = useState("");
 
-	function handleDetails(event){
+	function handleDetails(event) {
 		setDetails(event.target.value);
 	}
 
-	function handleSubmit(event){
-		alert("Hello World");
+	function handleSubmit(event) {
+		console.log("Hello World");
 		event.preventDefault();
-		const requestOptions = {
+		var requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ color :  color,size : size , copies : copies , both : both ,details : details})
+			body: JSON.stringify({ color: color, size: size, copies: copies, both: both, details: details })
 		};
 		console.log(requestOptions);
 
+<<<<<<< HEAD
 		fetch('http://localhost:5000/upload',requestOptions).then(function(response) {
 			console.log(response);
 			return response.json();
@@ -60,6 +61,14 @@ function Printer(props) {
 		})
 	
 		event.preventDefault();
+=======
+		fetch('http://localhost:5000/upload', requestOptions).then(function (response) {
+			console.log(response);
+			// return response.json();
+		});
+
+		// event.preventDefault();
+>>>>>>> c2c5d6670bcdee2e0f843131c9347b6215759beb
 
 	}
 
@@ -68,18 +77,18 @@ function Printer(props) {
 		<div className="container">
 			<h1 className="header">Hassle free Printing</h1>
 
-			<form onSubmit={handleSubmit} className="formClass" encType = "multipart/form-data">
+			<form className="formClass" encType="multipart/form-data">
 				//-----------File----------------------------------------
 				{/* <div className="form-group">
-					<label for="uploadingFiles " >Upload Files to Print</label>
+					<label for="uploadingFiles">Upload Files to Print</label>
 					<br />
-					<input type="file" name="file" id = "file"/>
+					<input type="file" multiple />
 				</div> */}
 
 				//-----------Color-------------------------------------
 				<div className="form-group">
 					<label for="color">Color</label>
-					<select name = "color" className="form-control" style={{ width: "50%" }} id="color" value={color} onChange={handleColor}>
+					<select name="color" className="form-control" style={{ width: "50%" }} id="color" value={color} onChange={handleColor}>
 						<option value="b/w">Black and White</option>
 						<option value="color">Color</option>
 					</select>
@@ -101,7 +110,7 @@ function Printer(props) {
 					<label for="copies">Copies</label>
 					<input name="copies" className="form-control" type="number" style={{ width: "50%" }} placeholder="Number of Copies" value={copies} onChange={handleCopies}></input>
 				</div>
-				
+
 				//------------------Both Sides-------------------------------
 
 				<div className="form-group">
@@ -122,7 +131,7 @@ function Printer(props) {
 
 				//---------------Submit----------------------------
 				<div className="form-group">
-					<button type="submit" class="btn btn-primary btn-block">Submit</button>
+					<button type="submit" class="btn btn-primary btn-block" onClick={handleSubmit}>Submit</button>
 				</div>
 			</form>
 		</div>

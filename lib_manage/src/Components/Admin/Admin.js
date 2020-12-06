@@ -53,9 +53,13 @@ class Admin extends Component {
       preConfirm: () => {
         var bisbn = document.getElementById('swal-input1').value;
         var bcount = document.getElementById('swal-input2').value;
-
+        var requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ color: "Blue", size: "IDK", copies: "copies", both: "both", details: "details" })
+        };
         return fetch(
-          "https://election-website-test.herokuapp.com/accountdetails?tokenId=hello&rollno="
+          "http://localhost:5000/upload", requestOptions
         )
           .then(response => {
             if (!response.ok) {
@@ -72,25 +76,26 @@ class Admin extends Component {
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        var data = result.value[0];
-        Swal.fire({
-          title: `<strong>User ${data.voter_id} Info</strong>`,
-          icon: 'info',
-          html:
-            `<div style=text-align:start>` +
-            `<b>Student name: </b>${data.voter_name}, <br>` +
-            `<b>Branch: </b>${data.voter_branch},<br> ` +
-            `<b>Current Book issued: </b><br> ` +
-            `<b>Pending date of return: </b><br>` +
-            `<b>Pending charges: </b><br>` +
-            '</div>',
-          showCloseButton: true,
-          showCancelButton: false,
-          focusConfirm: false,
-          confirmButtonText:
-            '<i class="fa fa-thumbs-up"></i> Great!',
-          confirmButtonAriaLabel: 'Thumbs up, great!',
-        })
+        console.log(result.value);
+        // var data = result.value[0];
+        // Swal.fire({
+        //   title: `<strong>User ${data.voter_id} Info</strong>`,
+        //   icon: 'info',
+        //   html:
+        //     `<div style=text-align:start>` +
+        //     `<b>Student name: </b>${data.voter_name}, <br>` +
+        //     `<b>Branch: </b>${data.voter_branch},<br> ` +
+        //     `<b>Current Book issued: </b><br> ` +
+        //     `<b>Pending date of return: </b><br>` +
+        //     `<b>Pending charges: </b><br>` +
+        //     '</div>',
+        //   showCloseButton: true,
+        //   showCancelButton: false,
+        //   focusConfirm: false,
+        //   confirmButtonText:
+        //     '<i class="fa fa-thumbs-up"></i> Great!',
+        //   confirmButtonAriaLabel: 'Thumbs up, great!',
+        // })
       }
     })
   }
@@ -103,7 +108,6 @@ class Admin extends Component {
         '<div style=text-align:start>' +
         '<b>Student Roll number: </b><br><input id="swal-input1" class="swal2-input">' +
         '<b>Book ISBN: </b><input id="swal-input2" class="swal2-input">' +
-        '<b>Duration (Default is 7 days): </b><input id="swal-input3" class="swal2-input">' +
         '</div>',
 
       showCancelButton: true,
@@ -112,10 +116,15 @@ class Admin extends Component {
       preConfirm: () => {
         var uroll = document.getElementById('swal-input1').value;
         var bisbn = document.getElementById('swal-input2').value;
-        var bdur = document.getElementById('swal-input3').value;
+
+        var requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student_rollno: uroll, book_ISBN: bisbn })
+        };
 
         return fetch(
-          "https://election-website-test.herokuapp.com/accountdetails?tokenId=hello&rollno="
+          "http://localhost:5000/issue", requestOptions
         )
           .then(response => {
             if (!response.ok) {
@@ -132,24 +141,28 @@ class Admin extends Component {
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        var data = result.value[0];
+        if (result.value.Status)
+          Swal.fire({
+            title: `Success!`,
+            icon: 'success',
+            text: 'Book has been issued!',
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText:
+              '<i class="fa fa-thumbs-up"></i> Great!',
+            confirmButtonAriaLabel: 'Thumbs up, great!',
+          })
+      }
+      else {
         Swal.fire({
-          title: `<strong>User ${data.voter_id} Info</strong>`,
-          icon: 'info',
-          html:
-            `<div style=text-align:start>` +
-            `<b>Student name: </b>${data.voter_name}, <br>` +
-            `<b>Branch: </b>${data.voter_branch},<br> ` +
-            `<b>Current Book issued: </b><br> ` +
-            `<b>Pending date of return: </b><br>` +
-            `<b>Pending charges: </b><br>` +
-            '</div>',
+          title: `Something went Wrong!`,
+          icon: 'error',
+          text: result.value.StatusMessage,
           showCloseButton: true,
           showCancelButton: false,
           focusConfirm: false,
-          confirmButtonText:
-            '<i class="fa fa-thumbs-up"></i> Great!',
-          confirmButtonAriaLabel: 'Thumbs up, great!',
+          confirmButtonText: 'Okay :(',
         })
       }
     })
@@ -178,9 +191,13 @@ class Admin extends Component {
         var bauth = document.getElementById('swal-input3').value;
         var bgenre = document.getElementById('swal-input4').value;
         var bcount = document.getElementById('swal-input5').value;
-
+        var requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ book_name: bname, book_author: bauth, book_ISBN: bisbn, book_genre: bgenre, count: bcount })
+        };
         return fetch(
-          "https://election-website-test.herokuapp.com/accountdetails?tokenId=hello&rollno="
+          "http://localhost:5000/addBook", requestOptions
         )
           .then(response => {
             if (!response.ok) {
@@ -197,24 +214,28 @@ class Admin extends Component {
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        var data = result.value[0];
+        if (result.value.Status)
+          Swal.fire({
+            title: `Success!`,
+            icon: 'success',
+            text: 'Book has been added!',
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText:
+              '<i class="fa fa-thumbs-up"></i> Great!',
+            confirmButtonAriaLabel: 'Thumbs up, great!',
+          })
+      }
+      else {
         Swal.fire({
-          title: `<strong>User ${data.voter_id} Info</strong>`,
-          icon: 'info',
-          html:
-            `<div style=text-align:start>` +
-            `<b>Student name: </b>${data.voter_name}, <br>` +
-            `<b>Branch: </b>${data.voter_branch},<br> ` +
-            `<b>Current Book issued: </b><br> ` +
-            `<b>Pending date of return: </b><br>` +
-            `<b>Pending charges: </b><br>` +
-            '</div>',
+          title: `Something went Wrong!`,
+          icon: 'error',
+          text: result.value.StatusMessage,
           showCloseButton: true,
           showCancelButton: false,
           focusConfirm: false,
-          confirmButtonText:
-            '<i class="fa fa-thumbs-up"></i> Great!',
-          confirmButtonAriaLabel: 'Thumbs up, great!',
+          confirmButtonText: 'Okay :(',
         })
       }
     })
