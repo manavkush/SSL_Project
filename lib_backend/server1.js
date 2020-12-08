@@ -4,17 +4,15 @@ const mongoose = require("mongoose");
 const app = express();
 const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
-const cors = require('cors');
 const _ = require('lodash');
 const { forEach } = require("lodash");
-
+var cors = require('cors')
 const path = require('path');
 const crypto = require('crypto');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
-
 
 app.set('view engine', 'ejs');
 
