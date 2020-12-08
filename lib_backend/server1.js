@@ -108,7 +108,7 @@ const firstIssue = new Issue({
     issued_rollno: student1.student_rollno,
     issued_ISBN: book1.book_ISBN
 });
-Book.find({}, function (err, found) {
+Book.find({}, (err, found) => {
     if (!err) {
         if (found.length === 0) {
             book1.save();
@@ -117,7 +117,7 @@ Book.find({}, function (err, found) {
     }
     else console.log(err);
 })
-Lib.find({}, function (err, found) {
+Lib.find({}, (err, found) => {
     if (!err) {
         if (found.length === 0) {
             entry1.save();
@@ -126,7 +126,7 @@ Lib.find({}, function (err, found) {
     }
     else console.log(err);
 })
-Student.find({}, function (err, found) {
+Student.find({}, (err, found) => {
     if (!err) {
         if (found.length === 0) {
             student2.save();
@@ -135,7 +135,7 @@ Student.find({}, function (err, found) {
     }
     else console.log(err);
 })
-Issue.find({}, function (err, found) {
+Issue.find({}, (err, found) => {
     if (!err) {
         if (found.length === 0) {
             firstIssue.save();
@@ -153,7 +153,7 @@ Issue.find({}, function (err, found) {
 // console.log(bname);
 
 //================================================== Searching a book ==================================
-app.post("/search", function (req, res) {
+app.post("/search", (req, res) => {
     // const bname = _.lowerCase(req.body.book_name);
     var bname = _.toUpper(req.body.book_name);
     console.log(bname);
@@ -199,7 +199,7 @@ app.post("/search", function (req, res) {
 
 
 //================================================= Add a book to library ==============================
-app.post("/addBook", function (req, res) {
+app.post("/addBook", (req, res) => {
     const bISBN = _.toUpper(req.body.book_ISBN);
     Book.findOne({ book_ISBN: bISBN }, function (err, found) {
         var returnObject = {
@@ -257,7 +257,7 @@ app.post("/removeBook", function (req, res) {
     };
     const bISBN = _.toUpper(req.body.book_ISBN);
     const incrementValue = req.body.count;
-    Lib.findOne({ 'book.book_ISBN': bISBN }, function (err, found) {
+    Lib.findOne({ 'book.book_ISBN': bISBN }, (err, found) => {
         if (!err) {
             if (found) {
                 if (found.count <= incrementValue) {
@@ -304,7 +304,7 @@ app.post("/issue", function (req, res) {
     };
     const SRollNo = _.toUpper(req.body.student_rollno);
     const IssuedBook = _.toUpper(req.body.book_ISBN);
-    Lib.findOneAndUpdate({ 'book.book_ISBN': IssuedBook }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
+    Lib.findOneAndUpdate({ 'book.book_ISBN': IssuedBook, 'count': { $gt: 0 } }, { $inc: { 'count': -1 } }, { new: true }, (err, updated) => {
 
         if (err) {
             console.log(err);
@@ -356,7 +356,7 @@ app.post("/return", function (req, res) {
         else if (!deleted) {
             res.send({
                 Status: false,
-                StatusMessage: "Couldn't find the entry"
+                StatusMessage: "Couldn't find the issue entry"
             });
         } else {
             Lib.findOneAndUpdate({ 'book.book_ISBN': returned_ISBN }, { $inc: { 'count': 1 } }, { new: true }, function (err, updated) {
