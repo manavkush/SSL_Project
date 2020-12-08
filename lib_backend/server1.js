@@ -27,17 +27,14 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-// const items = ["Buy Food", "Cook Food", "Eat Food"];
-// const workItems = [];
-
 
 mongoose.connect("mongodb://localhost:27017/lib_manage", { useNewUrlParser: true });
-var db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
+var conn = mongoose.connection;
+conn.on("error", console.error.bind(console, "connection error:"));
 
 let gfs;
-db.once("open", function () {
-    gfs = Grid(db.db, mongoose.mongo);
+conn.once("open", function () {
+    gfs = Grid(conn.db, mongoose.mongo);
     gfs.collection('uploads');
 });
 
@@ -95,6 +92,13 @@ const student2 = new Student({
     student_rollno: 190010034,
     student_due: 34
 });
+const student3 = new Student({
+    student_name: "Soni",
+    student_rollno: 190030002,
+    student_due: 100
+});
+
+// student3.save();
 
 
 const issuedBookSchema = new mongoose.Schema({
@@ -410,34 +414,184 @@ app.post("/printQuery", function (req, res) {
 //----------------------------Printing Files-------------------------
 
 // Create storage engine
-const storage = new GridFsStorage({
-    url: "mongodb://localhost:27017/lib_manage",
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buf) => {
-                if (err) {
-                    return reject(err);
-                }
-                const filename = buf.toString('hex') + path.extname(file.originalname);
-                const fileInfo = {
-                    filename: filename,
-                    bucketName: 'uploads'
-                };
-                resolve(fileInfo);
-            });
-        });
-    }
-});
+// const storage = new GridFsStorage({
+//     url: "mongodb://localhost:27017/lib_manage",
+//     file: (req, file) => {
+//         return new Promise((resolve, reject) => {
+//             crypto.randomBytes(16, (err, buf) => {
+//                 if (err) {
+//                     return reject(err);
+//                 }
+//                 const filename = buf.toString('hex') + path.extname(file.originalname);
+//                 const fileInfo = {
+//                     filename: filename,
+//                     bucketName: 'uploads'
+//                 };
+//                 resolve(fileInfo);
+//             });
+//         });
+//     }
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 console.log("Checking");
+const printerSchema = new mongoose.Schema({
+    link : String,
+    color : String,
+    size : String,
+    copies : Number,
+    both : String,
+    details : String
+});
 
+const Printer = new mongoose.model("Print", printerSchema);
+
+//Print Cost left
 
 app.post('/upload', (req, res) => {
     console.log("Testing");
-    console.log(req.body);
+    let returnObj = {
+        status :false,
+        statusMsg : ""
+    }
+    if(req.body.link==""){
+        returnObj.statusMsg = "Ops! No File Found";
+    }
+    else if(req.body.copies ===0){
+        returnObj.statusMsg = "0 copies cannot be printed ;)";
+    }
+    else{
+        returnObj.status =true;
+        
+        let returnObjAdmin = {
+            link : req.body.link,
+            color : req.body.color,
+            size : req.body.size,
+            copies : req.body.copies,
+            both : req.body.both,
+            details : req.body.details
+        }
+        const newPrint = new Printer({
+            link : req.body.link,
+            color : req.body.color,
+            size : req.body.size,
+            copies : req.body.copies,
+            both : req.body.both,
+            details : req.body.details
+        })
+        newPrint.save();
+
+        let rollNO = req.body.rollno;
+        let perPage = 0;
+        if(returnObj.color ==="color"){
+            perPage = 5;
+        }
+        else{
+            perPage = 2;
+        }
+
+
+    }
+    res.send(returnObj);
 })
+
+app.post('/printAdmin',(req,res)=>{
+    
+    Printer.find({},(err,found)=>{
+        let returnObj = {
+            status : false,
+            statusMsg : "",
+            printArr : []
+        }
+        
+        if(err){
+            returnObj.statusMsg = err;
+        }
+        else{
+            if(found.length ===0){
+                returnObj.statusMsg = "No Pending Prints";
+            }
+            else{
+                returnObj.status= true;
+                returnObj.printArr = found;
+            }
+        }
+        res.send(returnObj);
+
+    })
+})
+//For printing and deleting the printed query
+
+app.post("/deleteAdmin",(req,res)=>{
+    const ID = req.body.deleteId;
+    const rollno = req.body.rollno;
+    const cost = req.body.cost;
+    
+    Printer.findOneAndDelete({_id : ID} ,(err,deleted)=>{
+        let returnObj = {
+            status : false,
+            statusMsg : "",
+        }
+        console.log(deleted);
+        if(err){
+            returnObj.statusMsg = "Not Able to delete";
+        }
+        else if(!deleted){
+            returnObj.status = false;
+            returnObj.statusMsg = "Could Not Find !!";
+        }
+        else{
+            returnObj.status = true;
+            returnObj.statusMsg = "Deleted!!";
+
+            Student.findOneAndUpdate({student_rollno : rollno},{$inc : {student_due : cost}},{new : true},
+                (err,updated)=>{
+                    console.log(updated);
+                })
+        }
+
+        res.send(returnObj);
+    })
+})
+
+app.post("/getProfile",(req,res)=>{
+    const rollno = req.body.rollno;
+    // console.log(rollno);
+
+    Student.findOne({student_rollno:rollno},(err,found)=>{
+        let returnObj = {
+            status : false,
+            statusMsg : "",
+        }
+        
+        if(err){
+            returnObj.statusMsg = err;
+        }
+        if(!found){
+            returnObj.statusMsg = "Error 404,Student Not Found!!";
+        }
+        else{
+            returnObj.status = true;
+            returnObj.student_name = found.student_name;
+            returnObj.student_rollno = found.student_rollno;
+            returnObj.student_due =  found.student_due;
+            let dig = rollno[4];
+            if(dig=="1"){
+                returnObj.student_branch = "CSE";
+            }
+            else if(dig=="2"){
+                returnObj.student_branch = "EE";
+                
+            }
+            else if(dig=="3"){
+                returnObj.student_branch = "ME";
+            }
+        }
+        res.send(returnObj);
+    })
+})
+
 
 
 
