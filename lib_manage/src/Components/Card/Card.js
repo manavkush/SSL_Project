@@ -4,13 +4,11 @@ import Reveal from 'react-reveal/Reveal';
 import Fade from 'react-reveal/Fade';
 
 const Card = ({
-  cand_imgsrc,
-  cand_name,
-  cand_id,
-  cand_branch,
-  cand_intro,
-  cand_manifesto,
-  id,
+  book_name,
+  book_ISBN,
+  book_author,
+  book_genre,
+  book_count
 }) => {
   return (
     <div className="books">
@@ -18,15 +16,15 @@ const Card = ({
       <Fade >
         <div className="bookinf">
           <div className="bookinfhead">Book name:<br /></div>
-            Concepts of Physics<br />
+          {book_name}<br />
           <div className="bookinfhead">Author:</div>
-            HCV<br />
+          {book_author}<br />
           <div className="bookinfhead">Genre:</div>
-            Phyzix<br />
+          {book_genre}<br />
           <div className="bookinfhead"> ISBN:</div>
-            123456789<br />
+          {book_ISBN}<br />
           <div className="bookinfhead">Count available:</div>
-            50<br />
+          {book_count}<br />
         </div>
       </Fade >
 

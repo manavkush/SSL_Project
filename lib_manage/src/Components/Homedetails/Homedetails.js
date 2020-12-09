@@ -16,6 +16,7 @@ import Typing from 'react-typing-animation';
 import OnImagesLoaded from "react-on-images-loaded";
 import Ticker from "../Ticker.js";
 import Cursor from "react-typing-animation/dist/Cursor";
+import Typist from 'react-typist';
 
 class Homedetails extends React.Component {
   constructor(props) {
@@ -115,10 +116,9 @@ class Homedetails extends React.Component {
                 }}
               ></div>
               <div className="infotxt">
-                <Typing>
-                  <Typing.Speed ms={25} />
-                  <a> Hello there!</a><Cursor />
-                </Typing>
+                <a><Typist avgTypingDelay={150}>
+                  Hello there!
+                </Typist></a>
                 <br />
                 <Fade delay={2500}>
                   Welcome to your one stop location for accessing library resources at IIT Dharwad.

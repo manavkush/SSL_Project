@@ -10,6 +10,7 @@ import Electioncard from "./Components/Electioncard/Electioncard";
 import Nav from "react-bootstrap/Nav";
 import history from './history';
 import "./App.css";
+import Swal from "sweetalert2";
 import {
   BrowserRouter as Router,
   Route,
@@ -38,7 +39,7 @@ class NavBar extends Component {
       show: false,
       isSigned: false,
       isAdmin: false,
-      isVoter: false,
+      email: "",
       tokenId: "",
       authRes: "",
       expanded: false,
@@ -56,16 +57,14 @@ class NavBar extends Component {
     this.setState({
       isSigned: true,
       tokenId: res.tokenId,
-      authRes: res,
+      name: res.profileObj.name,
+      email: res.profileObj.email,
     });
-
-    var refresh = setInterval(
-      this.refreshToken(res),
-      Number(this.state.authRes.tokenObj.expires_in) * 60000
-    );
-
-    this.setState({ refresh: refresh });
-
+    //  console.log(this.state);
+    setInfo({
+      isSigned: this.state.isSigned,
+      email: this.state.email,
+    });
     this.isAdmin();
 
   };
@@ -84,6 +83,7 @@ class NavBar extends Component {
       isSigned: false,
       tokenId: "",
       authRes: "",
+      email: "",
       isAdmin: false,
       isVoter: false,
     });
@@ -93,39 +93,23 @@ class NavBar extends Component {
       isAdmin: this.state.isAdmin,
       isSigned: this.state.isSigned,
       tokenId: this.state.tokenId,
+      email: this.state.email,
     });
   };
 
-  async isAdmin() {
-    if (this.state.tokenId.length) {
-      await fetch(
-        "https://election-website-test.herokuapp.com/userType?tokenId=" +
-        this.state.tokenId
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((user) => {
+  isAdmin() {
 
-          if (user.type === "adminANDvoter") {
-            this.setState({ isAdmin: true, isVoter: true });
-          } else if (user.type === "admin") {
-            this.setState({ isAdmin: true, isVoter: false });
-          } else if (user.type === "voter") {
-            this.setState({ isAdmin: false, isVoter: true });
-          } else {
-            this.setState({ isAdmin: false, isVoter: false });
-          }
-        })
-        .then(() => {
-          setInfo({
-            isAdmin: this.state.isAdmin,
-            isVoter: this.state.isVoter,
-            isSigned: this.state.isSigned,
-            tokenId: this.state.tokenId,
-          });
-        });
-    }
+    if (this.state.email == "190010029@iitdh.ac.in" || this.state.email == "190010023@iitdh.ac.in" || this.state.email == "190010034@iitdh.ac.in") { this.setState({ isAdmin: true }); }
+
+
+    setInfo({
+      isAdmin: this.state.isAdmin,
+      isSigned: this.state.isSigned,
+      tokenId: this.state.tokenId,
+      email: this.state.email
+    });
+
+
   }
 
   componentDidUpdate() { }
@@ -179,7 +163,55 @@ class NavBar extends Component {
                 <>
                   <Nav.Link
                     onClick={() => {
-                      setShowAccount(true);
+                      Swal.fire({
+                        title: 'Look up profile details?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Look up',
+                        showLoaderOnConfirm: true,
+                        preConfirm: () => {
+                          var requestOptions = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: this.state.email })
+                          };
+                          return fetch(`http://localhost:5000/getProfile`, requestOptions)
+                            .then(response => {
+                              if (!response.ok) {
+                                throw new Error(response.statusText)
+                              }
+                              return response.json()
+                            })
+                            .catch(error => {
+                              Swal.showValidationMessage(
+                                `Request failed: ${error}`
+                              )
+                            })
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          console.log(result.value.Status);
+                          if (result.value.Status) {
+                            Swal.fire({
+                              icon: 'info',
+                              title: `Hello!`,
+                              html: `<div style=text-align:start>` +
+                                `<b>User name: </b> ${result.value.student_name} <br>` +
+                                `<b>Roll number: </b> ${result.value.student_rollno} <br>` +
+                                `<b>Branch :  </b> ${result.value.student_branch} <br>` +
+                                `<b>Due amount (in Rs.): ${result.value.student_due} <br>` +
+                                `</div>`,
+                            })
+                          }
+                          else {
+                            Swal.fire({
+                              icon: 'error',
+                              title: `${result.value.StatusMessage}`,
+
+                            })
+                          }
+                        }
+                      })
                     }}
                     className="NavLink nav-link"
                   >
@@ -223,7 +255,7 @@ class NavBar extends Component {
               <Nav.Link>
                 {!this.state.isSigned ? (
                   <GoogleLogin
-                    clientId="352037303035-ld3gu55gulckmeo1m573kt8qocth524o.apps.googleusercontent.com"
+                    clientId="1091397760192-opdoif28tbpiac2fpcjjdtv1ir3k4n26.apps.googleusercontent.com"
                     render={(renderProps) => (
                       <Button
                         className="Button"
@@ -242,7 +274,7 @@ class NavBar extends Component {
                   />
                 ) : (
                     <GoogleLogout
-                      clientId="352037303035-ld3gu55gulckmeo1m573kt8qocth524o.apps.googleusercontent.com"
+                      clientId="1091397760192-opdoif28tbpiac2fpcjjdtv1ir3k4n26.apps.googleusercontent.com"
                       render={(renderProps) => (
                         <Button
                           className="Button"
@@ -306,124 +338,6 @@ class Error extends Component {
   }
 }
 
-class Account extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tokenId: this.props.tokenId,
-      isVoter: this.props.isVoter,
-      show: this.props.show,
-      details: {
-        voter_rights: [],
-      },
-    };
-    // eslint-disable-next-line no-func-assign
-    fetchDetails = fetchDetails.bind(this);
-  }
-  showpos = () => {
-    return (
-      <ul>
-        {this.state.details.voter_rights.map((pos, i) => (
-          <li key={i}>{pos.elec_name}</li>
-        ))}
-      </ul>
-    );
-  };
-
-  componentDidUpdate() {
-    if (
-      this.state.tokenId !== this.props.tokenId ||
-      this.state.isVoter !== this.props.isVoter
-    ) {
-      this.getDetails();
-    }
-
-  }
-  async getDetails() {
-    if (this.props.tokenId.length) {
-      await fetch(
-        "https://election-website-test.herokuapp.com/accountdetails?tokenId=" +
-        this.props.tokenId
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((users) => {
-          this.setState({ tokenId: this.props.tokenId, isVoter: this.props.isVoter, details: users[0] });
-        });
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        <Modal
-          show={this.props.show}
-          onHide={() => {
-            setShowAccount(false);
-          }}
-          animation={true}
-          size="lg"
-          centered
-        >
-          <Modal.Header className="profileheadparent">
-            <div className="profilehead">Profile</div>
-          </Modal.Header>
-          <Modal.Body>
-            <Container>
-              <Row xs={1} md={2} lg={2}>
-                <Col>
-                  <div className="accountbasics">
-                    <div className="accountheading">
-                      Name
-                      <br />
-                    </div>
-                    {this.state.details.voter_name}
-                    <br />
-                    <div className="accountheading">
-                      Branch
-                      <br />
-                    </div>
-                    {this.state.details.voter_branch}
-                    <br />
-                    <div className="accountheading">
-                      Roll No
-                      <br />
-                    </div>
-                    {this.state.details.voter_id}
-                    <br />
-                  </div>
-                  <br />
-                </Col>
-                <Col>
-                  <div className="accountposElement">
-                    <div className="accountheading">
-                      Eligible Voting Positions
-                      <br />
-                    </div>
-                    {this.showpos()}
-                  </div>
-                </Col>
-              </Row>
-            </Container>
-          </Modal.Body>
-          <div className="profileclosebtnparent">
-            <Button
-              variant="secondary"
-              className="profileclosebtn"
-              onClick={() => {
-                setShowAccount(false);
-              }}
-            >
-              Close
-            </Button>
-          </div>
-        </Modal>
-      </div>
-    );
-  }
-}
 
 class App extends Component {
   constructor(props) {
@@ -436,8 +350,8 @@ class App extends Component {
       currenttab: "/",
       isSigned: false,
       isAdmin: false,
-      isVoter: false,
       tokenId: "",
+      emailid: "",
     };
     // eslint-disable-next-line no-func-assign
     setInfo = setInfo.bind(this);
@@ -471,6 +385,8 @@ class App extends Component {
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}
+                  emailid={this.state.emailid}
+
                 />
               ))}
             />
@@ -484,6 +400,7 @@ class App extends Component {
                   isSigned={this.state.isSigned}
                   isAdmin={this.state.isAdmin}
                   tokenId={this.state.tokenId}
+                  emailid={this.state.emailid}
                 />
               )}
             />
@@ -494,6 +411,8 @@ class App extends Component {
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}
+                  emailid={this.state.emailid}
+
                 />
               ))}
             />
@@ -501,10 +420,12 @@ class App extends Component {
               path="/printmg"
               exact
               render={(props) => (
-                <Printer
+                < Printer
                   {...props}
                   hideLoader={this.props.hideLoader}
                   showLoader={this.props.showLoader}
+                  emailid={this.state.emailid}
+
                 />
               )}
             />
@@ -521,10 +442,6 @@ class App extends Component {
             />
           </Switch>
           <Error msg={this.state.error} showError={this.state.showError} />
-          <Account
-            show={this.state.showAccount}
-            tokenId={this.state.tokenId}
-          />
           <Footer style={{ opacity: this.state.showImages ? 1 : 0 }} />
         </Router>
       </OnImagesLoaded>
@@ -541,20 +458,14 @@ function setShowAccount(val) {
 }
 function setInfo(val) {
   this.setState({
+
     tokenId: val.tokenId,
     isAdmin: val.isAdmin,
     isSigned: val.isSigned,
+    emailid: val.email,
   });
+  console.log(this.state.emailid);
 }
-function fetchDetails(refresh) {
-  if (this.state.tokenId.length && this.state.details.voter_rights.length) {
-    if (refresh === 1) {
-      this.getDetails();
-    }
-    return this.state.details;
-  } else {
-    return false;
-  }
-}
+
 export default withRouter(App);
 // export  App, showModel, fetchDetails };

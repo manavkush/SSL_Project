@@ -6,8 +6,10 @@ import Fade from "react-reveal/Fade";
 import OnImagesLoaded from 'react-on-images-loaded';
 import Typing from 'react-typing-animation';
 import Card from '../Card/Card'
+import CardList from '../Cardlist/CardList'
 import Cursor from "react-typing-animation/dist/Cursor";
 import searchimg from "./search.svg"; // with import
+import Typist from 'react-typist';
 
 
 class LibStud extends React.Component {
@@ -16,16 +18,39 @@ class LibStud extends React.Component {
         this.props.showLoader();
         this.state = {
             showImages: false,
-            searchReady: true
-
-        }
+            searchReady: true,
+            bookData: []
+        };
     }
     componentDidMount() {
         window.scrollTo(0, 0);
     }
+    handleSearch = (event) => {
+        let searchString = document.getElementById("searchQuery").value;
+        console.log(searchString);
+        event.preventDefault();
+        var requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ searchQuery: searchString })
+        };
+        console.log(requestOptions);
 
+        fetch('http://localhost:5000/search', requestOptions).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data.Books);
+            console.log("Hello");
+            this.setState({ bookData: data.Books });
+            console.log(this.state.bookData);
+        })
+
+        event.preventDefault();
+    }
     render() {
+
         return (
+
             <OnImagesLoaded
                 onLoaded={() => {
                     this.setState({ showImages: true });
@@ -44,14 +69,13 @@ class LibStud extends React.Component {
 
                     <div className="search-bar">
                         <div className="randtext">
-                            <Typing >
-                                <Typing.Speed ms={20} />
-                                <a> Look up a book!</a><Cursor />
-                            </Typing>
+                            <a><Typist>
+                                Look up a book!
+                            </Typist></a>
                         </div>
                         <div class="search">
-                            <input type="text" class="searchTerm" placeholder="What are you looking for?" />
-                            <button type="submit" class="searchButton" >
+                            <input type="text" class="searchTerm" placeholder="What are you looking for?" id="searchQuery" />
+                            <button type="submit" class="searchButton" onClick={this.handleSearch}>
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -60,15 +84,7 @@ class LibStud extends React.Component {
                         style={{ opacity: this.state.searchReady ? 1 : 0 }}>
                         <div className="reshead">
                             <h2>Here are your search results!</h2></div>
-                        <div className="searchCont">
-                            <Card />
-                            <Card />
-                            <Card />
-                            <Card />
-                            <Card />
-                            <Card />
-                            <Card />
-                        </div>
+                        <CardList book={this.state.bookData} />
 
                     </div>
                     <div className="searchImg">
