@@ -27,17 +27,14 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-// const items = ["Buy Food", "Cook Food", "Eat Food"];
-// const workItems = [];
-
 
 mongoose.connect("mongodb://localhost:27017/lib_manage", { useNewUrlParser: true });
-var db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
+var conn = mongoose.connection;
+conn.on("error", console.error.bind(console, "connection error:"));
 
 let gfs;
-db.once("open", function () {
-    gfs = Grid(db.db, mongoose.mongo);
+conn.once("open", function () {
+    gfs = Grid(conn.db, mongoose.mongo);
     gfs.collection('uploads');
 });
 
@@ -95,8 +92,13 @@ const student2 = new Student({
     student_rollno: 190010034,
     student_due: 34
 });
+const student3 = new Student({
+    student_name: "Soni",
+    student_rollno: 190030002,
+    student_due: 100
+});
 
-
+// student3.save();
 const issuedBookSchema = new mongoose.Schema({
     issued_rollno: String,
     issued_ISBN: String
@@ -106,6 +108,8 @@ const firstIssue = new Issue({
     issued_rollno: student1.student_rollno,
     issued_ISBN: book1.book_ISBN
 });
+
+
 Book.find({}, function (err, found) {
     if (!err) {
         if (found.length === 0) {
@@ -151,18 +155,20 @@ Issue.find({}, function (err, found) {
 // console.log(bname);
 
 //================================================== Searching a book ==================================
-app.post("/search", function (req, res) {
+app.post("/search", (req, res) => {
     // const bname = _.lowerCase(req.body.book_name);
-    var bname = _.toUpper(req.body.book_name);
+    var bname = _.toUpper(req.body.searchQuery);
+    console.log("bname--->");
     console.log(bname);
 
-    Lib.find({ 'book.book_name': { $regex: bname } }, function (err, found) {
+    Lib.find({ 'book.book_name': { $regex: bname } }, (err, found) => {
         var returnObject = {
             Status: true,
             Books: [],
             StatusMessage: "Found the books"
         }
-        console.log(found);
+        // console.log(found);
+        // console.log("Searching a Book");
         if (err) {
             console.log(err);
             res.send({
@@ -171,7 +177,7 @@ app.post("/search", function (req, res) {
                 StatusMessage: err
             });
         }
-        if (found.length === 0) {
+        else if (found.length === 0) {
             res.send({
                 Status: false,
                 Books: [],
@@ -179,9 +185,10 @@ app.post("/search", function (req, res) {
             });
         }
         else {
-            console.log(found);
-            found.forEach(function (item) {
+            // console.log(found);
+            found.forEach((item) => {
                 var obj = {
+
                     "book_name": _.startCase(item.book.book_name),
                     "book_ISBN": item.book.book_ISBN,
                     "book_author": item.book.book_author,
@@ -190,6 +197,10 @@ app.post("/search", function (req, res) {
                 }
                 returnObject.Books.push(obj);
             });
+            console.log("REQ.BODY ---->");
+            console.log(req.body);
+            console.log("Return Object ---->");
+            console.log(returnObject);
             res.send(returnObject);
         }
     });
@@ -249,24 +260,22 @@ app.post("/addBook", function (req, res) {
 
 });
 //================================================= Remove a book from library ==============================
-app.post("/removeBook", function (req, res) {
-    var returnObject = {
-        Status: true,
-        StatusMessage: ""
-    };
+app.post("/removeBook", (req, res) => {
     const bISBN = _.toUpper(req.body.book_ISBN);
     const incrementValue = req.body.count;
-    Lib.findOne({ 'book.book_ISBN': bISBN }, function (err, found) {
+    console.log(req.body);
+    Lib.findOne({ 'book.book_ISBN': bISBN }, (err, found) => {
+        var returnObject = {
+            Status: true,
+            StatusMessage: "Removed the book"
+        };
         if (!err) {
             if (found) {
+                console.log(found.count);
+                console.log(incrementValue);
                 if (found.count <= incrementValue) {
-                    Lib.findOneAndDelete({ 'book.book_ISBN': bISBN }, (err, found) => {
-                        if (err) {
-                            res.send({
-                                Status: false,
-                                StatusMessage: err
-                            });
-                        }
+                    Lib.findOneAndDelete({ 'book.book_ISBN': bISBN }, (err, deleted) => {
+                        console.log(deleted);
                     });
                     Book.findOneAndDelete({ 'book_ISBN': bISBN });
                 }
@@ -276,47 +285,42 @@ app.post("/removeBook", function (req, res) {
                     });
                 }
             } else {
-                res.send({
-                    Status: false,
-                    StatusMessage: "Book not found"
-                });
+                returnObject.Status = false;
+                returnObject.StatusMessage = "Book not found";
             }
-            res.send(returnObject);
         }
         else {
-            res.send({
-                Status: false,
-                StatusMessage: err
-            });
+            returnObject.Status = false;
+            returnObject.StatusMessage = err;
         }
+        res.send(returnObject);
     });
-    res.send(returnObject);
 });
 
 
+
+
 //============================================== Issue a book ==========================================
-app.post("/issue", function (req, res) {
+app.post("/issue", (req, res) => {
     console.log("Issuing")
-    var returnObject = {
-        Status: true,
-        StatusMessage: "Issued the book"
-    };
+
     const SRollNo = _.toUpper(req.body.student_rollno);
     const IssuedBook = _.toUpper(req.body.book_ISBN);
-    Lib.findOneAndUpdate({ 'book.book_ISBN': IssuedBook }, { $inc: { 'count': -1 } }, { new: true }, function (err, updated) {
 
+    Lib.findOneAndUpdate({ 'book.book_ISBN': IssuedBook }, { $inc: { 'count': -1 } }, { new: true }, (err, updated) => {
+
+        var returnObject = {
+            Status: true,
+            StatusMessage: "Issued the book"
+        };
         if (err) {
-            console.log(err);
-            res.send({
-                Status: false,
-                StatusMessage: err
-            });
+            returnObject.Status = false;
+            returnObject.StatusMessage = "err";
         }
         else if (!updated) {
-            res.send({
-                Status: false,
-                StatusMessage: "Couldn't find the book"
-            });
+
+            returnObject.Status = false;
+            returnObject.StatusMessage = "Couldn't find the book";
         }
         else {
             returnObject.Status = true;
@@ -326,119 +330,250 @@ app.post("/issue", function (req, res) {
                 issued_ISBN: IssuedBook
             });
             NewIssue.save();
-            res.send(returnObject);
         }
+        res.send(returnObject);
     });
 
 });
 
 
 //========================================== Returning a book ==========================================
-app.post("/return", function (req, res) {
+app.post("/return", (req, res) => {
     console.log("REturning a book")
-    var returnObject = {
-        Status: true,
-        StatusMessage: "Book returned",
-    };
     var returned_ISBN = _.toUpper(req.body.book_ISBN);
     var student_rollno = _.toUpper(req.body.student_rollno);
 
-    Issue.findOneAndDelete({ 'issued_ISBN': returned_ISBN, 'issued_rollno': student_rollno }, function (err, deleted) {
+    Issue.findOneAndDelete({ 'issued_ISBN': returned_ISBN, 'issued_rollno': student_rollno }, (err, deleted) => {
+        var returnObject = {
+            Status: true,
+            StatusMessage: "Book returned",
+        };
         console.log(deleted);
         if (err) {
-            res.send({
-                Status: false,
-                StatusMessage: err,
-            });
-            return;
+            returnObject.Status = false;
+            returnObject.StatusMessage = "err";
         }
         else if (!deleted) {
-            res.send({
-                Status: false,
-                StatusMessage: "Couldn't find the entry"
-            });
+            returnObject.Status = false;
+            returnObject.StatusMessage = "Couldn't find the book";
         } else {
-            Lib.findOneAndUpdate({ 'book.book_ISBN': returned_ISBN }, { $inc: { 'count': 1 } }, { new: true }, function (err, updated) {
-                if (err) {
-                    console.log(err);
-                    res.send({
-                        Status: false,
-                        StatusMessage: err,
-                    });
-                    return;
-                }
-                else if (!updated) {
-                    res.send({
-                        Status: false,
-                        StatusMessage: "Didn't find the book"
-                    });
-                }
-                else {
-                    res.send({
-                        Status: true,
-                        StatusMessage: "Book returned",
-                    });
+            var check = true;
+            Lib.findOneAndUpdate({ 'book.book_ISBN': returned_ISBN }, { $inc: { 'count': 1 } }, { new: true }, (err, updated) => {
+                if (updated) {
+                    console.log(updated);
                 }
             });
-
         }
+        res.send(returnObject);
     });
-});
-
-//==================================== Adding a document for printing ==========================
-
-app.post("/printQuery", function (req, res) {
-    console.log("Entered");
-    console.log(req.body);
-    var returnObject = {
-        Status: true,
-        StatusMessage: "Successfully Added the document to the queue",
-    };
-    if (!req.files) {
-        returnObject.Status = false;
-        returnObject.StatusMessage = "No file uploaded";
-    }
-    else {
-        const uploadedFile = req.files.file;
-        const fileName = uploadedFile.name;
-
-        uploadedFile.mv('./uploads/' + fileName);
-    }
-    res.send(returnObject);
 });
 
 //----------------------------Printing Files-------------------------
 
-// Create storage engine
-const storage = new GridFsStorage({
-    url: "mongodb://localhost:27017/lib_manage",
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buf) => {
-                if (err) {
-                    return reject(err);
-                }
-                const filename = buf.toString('hex') + path.extname(file.originalname);
-                const fileInfo = {
-                    filename: filename,
-                    bucketName: 'uploads'
-                };
-                resolve(fileInfo);
-            });
-        });
-    }
-});
 
-const upload = multer({ storage });
 
 console.log("Checking");
+const printerSchema = new mongoose.Schema({
+    link: String,
+    color: String,
+    size: String,
+    copies: Number,
+    both: String,
+    details: String,
+    rollno: String
+});
 
+const Printer = new mongoose.model("Print", printerSchema);
+
+//========================================= UPLOADING File ===========================
 
 app.post('/upload', (req, res) => {
     console.log("Testing");
     console.log(req.body);
+    let returnObj = {
+        Status: false,
+        StatusMessage: ""
+    }
+    if (req.body.link == "") {
+        returnObj.StatusMessage = "Ops! No File Found";
+    }
+    else if (req.body.copies === 0) {
+        returnObj.StatusMessage = "0 copies cannot be printed ;)";
+    }
+    else {
+        returnObj.Status = true;
+        let email = req.body.email;
+        let rollno = email.substr(0, 9);
+
+        let returnObjAdmin = {
+            link: req.body.link,
+            color: req.body.color,
+            size: req.body.size,
+            copies: req.body.copies,
+            both: req.body.both,
+            details: req.body.details,
+            rollno: rollno
+        }
+        const newPrint = new Printer({
+            link: req.body.link,
+            color: req.body.color,
+            size: req.body.size,
+            copies: req.body.copies,
+            both: req.body.both,
+            details: req.body.details,
+            rollno: rollno
+        })
+        newPrint.save();
+
+    }
+    res.send(returnObj);
+})
+//========================================== PRINT ADMIN ================================
+
+app.post('/printAdmin', (req, res) => {
+
+    Printer.find({}, (err, found) => {
+        let returnObj = {
+            Status: false,
+            StatusMessage: "",
+            printArr: []
+        }
+        console.log(found.length);
+
+        if (err) {
+            returnObj.StatusMessage = err;
+        }
+        else {
+
+            if (found.length == 0) {
+                returnObj.StatusMessage = "No Pending Prints";
+            }
+            else {
+                returnObj.Status = true;
+                returnObj.printArr = found;
+                console.log();
+            }
+        }
+        res.send(returnObj);
+
+    })
+})
+//For printing and deleting the printed query
+
+app.post("/deleteAdmin", (req, res) => {
+    const ID = req.body.deleteId;
+    const rollno = req.body.rollno;
+    const cost = req.body.cost;
+
+    Printer.findOneAndDelete({ _id: ID }, (err, deleted) => {
+        let returnObj = {
+            Status: false,
+            StatusMessage: "",
+        }
+        console.log(deleted);
+        if (err) {
+            returnObj.StatusMessage = "Not Able to delete";
+        }
+        else if (!deleted) {
+            returnObj.Status = false;
+            returnObj.StatusMessage = "Could Not Find !!";
+        }
+        else {
+            returnObj.Status = true;
+            returnObj.StatusMessage = "Deleted!!";
+
+            Student.findOneAndUpdate({ student_rollno: rollno }, { $inc: { student_due: cost } }, { new: true },
+                (err, updated) => {
+                    console.log(updated);
+                })
+        }
+
+        res.send(returnObj);
+    })
 })
 
+app.post("/getProfile", (req, res) => {
+
+    const email = req.body.email;
+    console.log(email);
+    const rollno = email.substr(0, 9);
+    console.log(rollno);
+
+    Student.findOne({ student_rollno: rollno }, (err, found) => {
+        let returnObj = {
+            Status: false,
+            StatusMessage: "",
+        }
+
+        if (err) {
+            returnObj.StatusMessage = err;
+        }
+        if (!found) {
+            returnObj.StatusMessage = "Error 404,Student Not Found!!";
+        }
+        else {
+            returnObj.Status = true;
+            returnObj.student_name = found.student_name;
+            returnObj.student_rollno = found.student_rollno;
+            returnObj.student_due = found.student_due;
+            let dig = rollno[4];
+            if (dig == "1") {
+                returnObj.student_branch = "CSE";
+            }
+            else if (dig == "2") {
+                returnObj.student_branch = "EE";
+
+            }
+            else if (dig == "3") {
+                returnObj.student_branch = "ME";
+            }
+        }
+        console.log(returnObj);
+        res.send(returnObj);
+    })
+})
+
+//===================================================== Admin Searching Student Profile =========================
+app.post("/adminStudentProfile", (req, res) => {
+    // const email = req.body.email;
+    const rollno = req.body.rollno;
+    const costToDeduct = req.body.costToDeduct;
+    // console.log(rollno);
+
+    Student.findOneAndUpdate({ student_rollno: rollno }, { $inc: { student_due: -1 * costToDeduct } }, { new: true }, (err, found) => {
+
+        let returnObj = {
+            Status: false,
+            StatusMessage: "",
+        }
+
+        if (err) {
+            returnObj.StatusMessage = err;
+        }
+        if (!found) {
+            returnObj.StatusMessage = "Error 404,Student Not Found!!";
+        }
+        else {
+            returnObj.Status = true;
+            returnObj.student_name = found.student_name;
+            returnObj.student_rollno = found.student_rollno;
+            returnObj.student_due = found.student_due;
+            let dig = rollno[4];
+            if (dig == "1") {
+                returnObj.student_branch = "CSE";
+            }
+            else if (dig == "2") {
+                returnObj.student_branch = "EE";
+
+            }
+            else if (dig == "3") {
+                returnObj.student_branch = "ME";
+            }
+        }
+        res.send(returnObj);
+    })
+
+});
 
 
 let port = process.env.PORT;

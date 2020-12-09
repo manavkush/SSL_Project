@@ -1,30 +1,25 @@
 import React from 'react';
 import Card from '../Card/Card';
-import  './CardList.css';
+import './CardList.css';
 
 
-const CardList = ({ robots }) => {
+const CardList = ({ book }) => {
   return (
-    <div>
-    <div className="gridlayout">
-      { 
-        robots.map((user, i) => {
+    <div className="searchCont">
+      {
+        book.map((books) => {
 
           return (
             <Card
-              key={i}
-              cand_elec_id={robots[i].cand_elec_id}
-              cand_imgsrc={robots[i].cand_imgsrc}
-              cand_name={robots[i].cand_name}
-              cand_id={robots[i].cand_id}
-              cand_branch={robots[i].cand_branch}
-              cand_manifesto={robots[i].cand_manifesto}
-              cand_intro={robots[i].cand_intro}
+              book_name={books.book_name}
+              book_ISBN={books.book_ISBN}
+              book_author={books.book_author}
+              book_genre={books.book_genre}
+              book_count={books.book_count}
             />
           );
         })
       }
-    </div>
     </div>
   );
 }
