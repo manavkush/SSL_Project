@@ -7,7 +7,7 @@ Library Management Application for IIT Dharwad.
 ```npm install ```\
 ```cd ..```\
 ```cd lib_backend```\
-```npm install```\
+```npm install```
 
 ## To run the project your local machine follow following commands.
 
@@ -16,6 +16,6 @@ Library Management Application for IIT Dharwad.
 
 ```cd ..```\
 ```cd lib_frontend```\
-```npm start```\
+```npm start```
 
 ## Requirements: nodemon, mongodb, npm
