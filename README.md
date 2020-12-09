@@ -12,7 +12,7 @@ Library Management Application for IIT Dharwad.
 ## To run the project your local machine follow following commands.
 
 ```cd lib_backend```\
-```nodemon server1.js```\
+```nodemon server1.js```
 
 ```cd ..```\
 ```cd lib_frontend```\
