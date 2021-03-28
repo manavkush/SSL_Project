@@ -138,119 +138,10 @@ Issue.find({}, function (err, found) {
 //================================================= Add a book to library ==============================
 
 //================================================= Remove a book from library ==============================
-app.post("/removeBook", (req, res) => {
-  const bISBN = _.toUpper(req.body.book_ISBN);
-  const incrementValue = req.body.count;
-  console.log(req.body);
-  Lib.findOne({ "book.book_ISBN": bISBN }, (err, found) => {
-    var returnObject = {
-      Status: true,
-      StatusMessage: "Removed the book",
-    };
-    if (!err) {
-      if (found) {
-        console.log(found.count);
-        console.log(incrementValue);
-        if (found.count <= incrementValue) {
-          Lib.findOneAndDelete({ "book.book_ISBN": bISBN }, (err, deleted) => {
-            console.log(deleted);
-          });
-          Book.findOneAndDelete({ book_ISBN: bISBN });
-        } else {
-          Lib.findOneAndUpdate(
-            { "book.book_ISBN": bISBN },
-            { $inc: { count: -1 * incrementValue } },
-            { new: true },
-            (err, updated) => {
-              console.log(updated);
-            }
-          );
-        }
-      } else {
-        returnObject.Status = false;
-        returnObject.StatusMessage = "Book not found";
-      }
-    } else {
-      returnObject.Status = false;
-      returnObject.StatusMessage = err;
-    }
-    res.send(returnObject);
-  });
-});
 
 //============================================== Issue a book ==========================================
-app.post("/issue", (req, res) => {
-  console.log("Issuing");
-
-  const SRollNo = _.toUpper(req.body.student_rollno);
-  const IssuedBook = _.toUpper(req.body.book_ISBN);
-
-  Lib.findOneAndUpdate(
-    { "book.book_ISBN": IssuedBook },
-    { $inc: { count: -1 } },
-    { new: true },
-    (err, updated) => {
-      var returnObject = {
-        Status: true,
-        StatusMessage: "Issued the book",
-      };
-      if (err) {
-        returnObject.Status = false;
-        returnObject.StatusMessage = "err";
-      } else if (!updated) {
-        returnObject.Status = false;
-        returnObject.StatusMessage = "Couldn't find the book";
-      } else {
-        returnObject.Status = true;
-        console.log(updated);
-        const NewIssue = new Issue({
-          issued_rollno: SRollNo,
-          issued_ISBN: IssuedBook,
-        });
-        NewIssue.save();
-      }
-      res.send(returnObject);
-    }
-  );
-});
 
 //========================================== Returning a book ==========================================
-app.post("/return", (req, res) => {
-  console.log("REturning a book");
-  var returned_ISBN = _.toUpper(req.body.book_ISBN);
-  var student_rollno = _.toUpper(req.body.student_rollno);
-
-  Issue.findOneAndDelete(
-    { issued_ISBN: returned_ISBN, issued_rollno: student_rollno },
-    (err, deleted) => {
-      var returnObject = {
-        Status: true,
-        StatusMessage: "Book returned",
-      };
-      console.log(deleted);
-      if (err) {
-        returnObject.Status = false;
-        returnObject.StatusMessage = "err";
-      } else if (!deleted) {
-        returnObject.Status = false;
-        returnObject.StatusMessage = "Couldn't find the book";
-      } else {
-        var check = true;
-        Lib.findOneAndUpdate(
-          { "book.book_ISBN": returned_ISBN },
-          { $inc: { count: 1 } },
-          { new: true },
-          (err, updated) => {
-            if (updated) {
-              console.log(updated);
-            }
-          }
-        );
-      }
-      res.send(returnObject);
-    }
-  );
-});
 
 //----------------------------Printing Files-------------------------
 
@@ -447,6 +338,9 @@ app.post("/adminStudentProfile", (req, res) => {
 
 app.use(express.json({ extended: false }));
 
+app.use("/return", require("./routes/api/return"));
+app.use("/issue", require("./routes/api/issue"));
+app.use("/removeBook", require("./routes/api/removeBook"));
 app.use("/search", require("./routes/api/search"));
 app.use("/addBook", require("./routes/api/addBook"));
 
